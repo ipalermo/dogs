@@ -18,7 +18,7 @@ import android.view.MenuItem;
 import com.dogbuddy.android.code.test.dogsapp.R;
 import com.dogbuddy.android.code.test.dogsapp.ViewModelFactory;
 import com.dogbuddy.android.code.test.dogsapp.addeditdog.AddEditDogActivity;
-import com.dogbuddy.android.code.test.dogsapp.statistics.CreditsActivity;
+import com.dogbuddy.android.code.test.dogsapp.credits.CreditsActivity;
 import com.dogbuddy.android.code.test.dogsapp.dogdetail.DogDetailActivity;
 import com.dogbuddy.android.code.test.dogsapp.util.ActivityUtils;
 

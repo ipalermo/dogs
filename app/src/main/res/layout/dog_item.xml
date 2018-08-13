@@ -16,13 +16,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/listPreferredItemHeight"
-        android:background="@{dog.completed ? @drawable/list_completed_touch_feedback : @drawable/touch_feedback}"
+        android:layout_height="90dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
         android:orientation="vertical"
+        android:gravity="center"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/list_item_padding"
-        android:paddingTop="@dimen/list_item_padding"
         android:onClick="@{() -> listener.onDogClicked(dog)}">
 
         <TextView
@@ -32,7 +33,8 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textStyle="bold"
             android:text="@{dog.name}"
             tools:text="Dog Name"/>
 
@@ -51,6 +53,7 @@
             android:id="@+id/gender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"

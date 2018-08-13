@@ -183,11 +183,11 @@ public class DogsRepository implements DogsDataSource {
      * get the data.
      */
     @Override
-    public void getDog(@NonNull final String taskId, @NonNull final GetDogCallback callback) {
-        checkNotNull(taskId);
+    public void getDog(@NonNull final String dogId, @NonNull final GetDogCallback callback) {
+        checkNotNull(dogId);
         checkNotNull(callback);
 
-        Dog cachedDog = getDogWithId(taskId);
+        Dog cachedDog = getDogWithId(dogId);
 
         // Respond immediately with cache if available
         if (cachedDog != null) {
@@ -200,7 +200,7 @@ public class DogsRepository implements DogsDataSource {
         // Load from server/persisted if needed.
 
         // Is the dog in the local data source? If not, query the network.
-        mDogsLocalDataSource.getDog(taskId, new GetDogCallback() {
+        mDogsLocalDataSource.getDog(dogId, new GetDogCallback() {
             @Override
             public void onDogLoaded(Dog dog) {
                 // Do in memory cache update to keep the app UI up to date
@@ -216,7 +216,7 @@ public class DogsRepository implements DogsDataSource {
 
             @Override
             public void onDataNotAvailable() {
-                mDogsRemoteDataSource.getDog(taskId, new GetDogCallback() {
+                mDogsRemoteDataSource.getDog(dogId, new GetDogCallback() {
                     @Override
                     public void onDogLoaded(Dog dog) {
                         if (dog == null) {

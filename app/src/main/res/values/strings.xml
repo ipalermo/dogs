@@ -18,6 +18,15 @@
     <string name="credits_title">Credits</string>
     <string name="no_data">No data</string>
     <string name="author">Ignacio Palermo</string>
+    <string name="vaccinations">Vaccinations up to date</string>
+    <string name="neutered">Neutered/Sprayed</string>
+    <string name="friendly">Friendly with other dogs</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="responds_to">Commands the dog responds to</string>
+    <string name="eating_schedule">Eating schedule</string>
+    <string name="walking_schedule">Walking schedule</string>
+    <string name="sleep_time">When does the dog sleep</string>
     <string name="author_email">nacho.palermo84@gmail.com</string>
     <string name="no_dogs_yet">You haven´t added any dogs yet</string>
     <string name="no_dogs_add">ADD YOUR FIRST DOG</string>

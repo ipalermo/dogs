@@ -1,5 +1,5 @@
 
-package com.dogbuddy.android.code.test.dogsapp.statistics;
+package com.dogbuddy.android.code.test.dogsapp.credits;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;

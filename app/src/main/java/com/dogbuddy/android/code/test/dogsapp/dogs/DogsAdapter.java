@@ -63,8 +63,8 @@ public class DogsAdapter extends BaseAdapter {
         DogItemUserActionsListener userActionsListener = new DogItemUserActionsListener() {
 
             @Override
-            public void onDogClicked(Dog task) {
-                mDogsViewModel.getOpenDogEvent().setValue(task.getId());
+            public void onDogClicked(Dog dog) {
+                mDogsViewModel.getOpenDogEvent().setValue(dog.getId());
             }
         };
 

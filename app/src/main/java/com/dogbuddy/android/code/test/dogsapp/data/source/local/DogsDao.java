@@ -84,15 +84,6 @@ public interface DogsDao {
     int updateDog(Dog dog);
 
     /**
-     * Update the complete status of a dog
-     *
-     * @param dogId    id of the dog
-     * @param completed status to be updated
-     */
-    @Query("UPDATE dogs SET completed = :completed WHERE entryid = :dogId")
-    void updateCompleted(String dogId, boolean completed);
-
-    /**
      * Delete a dog by id.
      *
      * @return the number of dogs deleted. This should always be 1.
@@ -111,12 +102,4 @@ public interface DogsDao {
      */
     @Query("DELETE FROM breeds")
     void deleteBreeds();
-
-    /**
-     * Delete all completed dogs from the table.
-     *
-     * @return the number of dogs deleted.
-     */
-    @Query("DELETE FROM dogs WHERE completed = 1")
-    int deleteCompletedDogs();
 }

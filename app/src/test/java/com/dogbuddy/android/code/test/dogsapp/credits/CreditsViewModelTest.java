@@ -1,5 +1,5 @@
 
-package com.dogbuddy.android.code.test.dogsapp.statistics;
+package com.dogbuddy.android.code.test.dogsapp.credits;
 
 
 import android.app.Application;
@@ -20,9 +20,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 

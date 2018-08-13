@@ -9,9 +9,9 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.VisibleForTesting;
 
 import com.dogbuddy.android.code.test.dogsapp.addeditdog.AddEditDogViewModel;
+import com.dogbuddy.android.code.test.dogsapp.credits.CreditsViewModel;
 import com.dogbuddy.android.code.test.dogsapp.data.source.DogsRepository;
 import com.dogbuddy.android.code.test.dogsapp.dogdetail.DogDetailViewModel;
-import com.dogbuddy.android.code.test.dogsapp.statistics.CreditsViewModel;
 import com.dogbuddy.android.code.test.dogsapp.dogs.DogsViewModel;
 
 /**

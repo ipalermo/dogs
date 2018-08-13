@@ -22,7 +22,7 @@
         <activity android:name="com.dogbuddy.android.code.test.dogsapp.dogdetail.DogDetailActivity" />
         <activity android:name="com.dogbuddy.android.code.test.dogsapp.addeditdog.AddEditDogActivity" />
         <activity
-            android:name="com.dogbuddy.android.code.test.dogsapp.statistics.CreditsActivity"
+            android:name="com.dogbuddy.android.code.test.dogsapp.credits.CreditsActivity"
             android:parentActivityName="com.dogbuddy.android.code.test.dogsapp.dogs.DogsActivity"
             tools:ignore="UnusedAttribute">
             <!-- Parent activity meta-data to support 4.0 and lower -->

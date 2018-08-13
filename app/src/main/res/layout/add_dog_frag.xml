@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -72,7 +74,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
                         style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-                        android:entries="@{viewmodel.breeds}" />
+                        android:entries="@{viewmodel.breeds}"
+                        bind:breed="@={viewmodel.breed}"/>
 
                     <android.support.v7.widget.AppCompatSpinner
                         android:id="@+id/birth_year"
@@ -81,7 +84,137 @@
                         android:layout_marginBottom="16dp"
                         style="@style/Base.Widget.AppCompat.Spinner.Underlined"/>
 
+                    <android.support.v7.widget.AppCompatSpinner
+                        android:id="@+id/size"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"/>
+
+                    <RelativeLayout
+                        android:id="@+id/vaccinations_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/vaccinations"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="@string/vaccinations"
+                            tools:text="@string/vaccinations"/>
+
+                        <android.support.v7.widget.AppCompatCheckBox
+                            android:id="@+id/vaccinations_check"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/neutered_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/neutered"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="@string/neutered"
+                            tools:text="@string/neutered"/>
+
+                        <android.support.v7.widget.AppCompatCheckBox
+                            android:id="@+id/neutered_check"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/friendly_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/friendly"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="@string/friendly"
+                            tools:text="@string/friendly"/>
+
+                        <android.support.v7.widget.AppCompatCheckBox
+                            android:id="@+id/friendly_check"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true" />
+
+                    </RelativeLayout>
+
+                    <android.support.v7.widget.AppCompatSpinner
+                        android:id="@+id/gender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"/>
+
                 </LinearLayout>
+
+                <EditText
+                    android:id="@+id/responds_to"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:hint="@string/responds_to"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+
+                <EditText
+                    android:id="@+id/eating_schedule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:hint="@string/eating_schedule"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+
+                <EditText
+                    android:id="@+id/walking_schedule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:hint="@string/walking_schedule"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+
+                <EditText
+                    android:id="@+id/sleep_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:hint="@string/sleep_time"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
 
             </LinearLayout>
         </ScrollView>

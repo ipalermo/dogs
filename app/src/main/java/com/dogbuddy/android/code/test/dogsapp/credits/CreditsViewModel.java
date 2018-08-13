@@ -1,4 +1,4 @@
-package com.dogbuddy.android.code.test.dogsapp.statistics;
+package com.dogbuddy.android.code.test.dogsapp.credits;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;

@@ -3,23 +3,20 @@ package com.dogbuddy.android.code.test.dogsapp.addeditdog;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
-import android.databinding.InverseBindingMethod;
-import android.databinding.InverseBindingMethods;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableList;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatSpinner;
 
-import com.dogbuddy.android.code.test.dogsapp.SingleLiveEvent;
 import com.dogbuddy.android.code.test.dogsapp.R;
+import com.dogbuddy.android.code.test.dogsapp.SingleLiveEvent;
 import com.dogbuddy.android.code.test.dogsapp.SnackbarMessage;
+import com.dogbuddy.android.code.test.dogsapp.credits.CreditsViewModel;
 import com.dogbuddy.android.code.test.dogsapp.data.Breed;
 import com.dogbuddy.android.code.test.dogsapp.data.Dog;
 import com.dogbuddy.android.code.test.dogsapp.data.source.DogsDataSource;
 import com.dogbuddy.android.code.test.dogsapp.data.source.DogsRepository;
-import com.dogbuddy.android.code.test.dogsapp.statistics.CreditsViewModel;
 
 import java.util.List;
 
@@ -32,9 +29,6 @@ import java.util.List;
  * how to deal with more complex scenarios.
  */
 
-@InverseBindingMethods({
-        @InverseBindingMethod(type = AppCompatSpinner.class, attribute = "android:selectedItemPosition")
-})
 public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSource.GetDogCallback, DogsDataSource.LoadBreedsCallback {
 
     public final ObservableField<String> name = new ObservableField<>();
@@ -71,12 +65,14 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
         }
         mDogId = dogId;
         if (dogId == null) {
-            // No need to populate, it's a new dog
+            // No need to populate dog data since it's a new dog
             mIsNewDog = true;
+            dataLoading.set(true);
+            mDogsRepository.getBreeds(this);
             return;
         }
         if (mIsDataLoaded) {
-            // No need to populate, already have data.
+            // No need to populate, already have dog data.
             return;
         }
         mIsNewDog = false;
@@ -89,6 +85,9 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
     public void onDogLoaded(Dog dog) {
         name.set(dog.getName());
         breed.set(dog.getBreed());
+//        breed.notifyChange();
+
+        mIsDataLoaded = true;
 
         // Note that there's no need to notify that the values changed because I´m using
         // ObservableFields.
@@ -99,7 +98,6 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
     @Override
     public void onBreedsLoaded(List<Breed> breeds) {
         dataLoading.set(false);
-        mIsDataLoaded = true;
 
         this.breeds.clear();
         this.breeds.addAll(breeds);
@@ -132,6 +130,8 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
     SingleLiveEvent<Void> getDogUpdatedEvent() {
         return mDogUpdated;
     }
+
+
 
     private boolean isNewDog() {
         return mIsNewDog;

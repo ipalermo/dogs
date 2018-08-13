@@ -32,9 +32,6 @@ public final class Dog {
     @ColumnInfo(name = "breed")
     private final String mBreed;
 
-    @ColumnInfo(name = "completed")
-    private final boolean mCompleted;
-
     /**
      * Use this constructor to create a new active Dog.
      *
@@ -43,7 +40,7 @@ public final class Dog {
      */
     @Ignore
     public Dog(@NonNull String name, @Nullable String breed) {
-        this(name, breed, UUID.randomUUID().toString(), false);
+        this(name, breed, UUID.randomUUID().toString());
     }
 
     /**
@@ -54,38 +51,10 @@ public final class Dog {
      * @param breed breed of the dog
      * @param id          id of the dog
      */
-    @Ignore
     public Dog(@NonNull String name, @Nullable String breed, @NonNull String id) {
-        this(name, breed, id, false);
-    }
-
-    /**
-     * Use this constructor to create a new completed Dog.
-     *
-     * @param name       name of the dog
-     * @param breed breed of the dog
-     * @param completed   true if the dog is completed, false if it's active
-     */
-    @Ignore
-    public Dog(@NonNull String name, @Nullable String breed, boolean completed) {
-        this(name, breed, UUID.randomUUID().toString(), completed);
-    }
-
-    /**
-     * Use this constructor to specify a completed Dog if the Dog already has an id (copy of
-     * another Dog).
-     *
-     * @param name       name of the dog
-     * @param breed breed of the dog
-     * @param id          id of the dog
-     * @param completed   true if the dog is completed, false if it's active
-     */
-    public Dog(@NonNull String name, @Nullable String breed,
-               @NonNull String id, boolean completed) {
-        mId = id;
-        mName = name;
-        mBreed = breed;
-        mCompleted = completed;
+        this.mName = name;
+        this.mBreed = breed;
+        this.mId = id;
     }
 
     @NonNull
@@ -103,16 +72,8 @@ public final class Dog {
         return mBreed;
     }
 
-    public boolean isCompleted() {
-        return mCompleted;
-    }
-
-    public boolean isActive() {
-        return !mCompleted;
-    }
-
     public boolean isEmpty() {
-        return Strings.isNullOrEmpty(mName) &&
+        return Strings.isNullOrEmpty(mName) ||
                Strings.isNullOrEmpty(mBreed);
     }
 
@@ -137,17 +98,7 @@ public final class Dog {
     }
 
     public enum Gender {
-        MALE("Male"),
-        FEMALE("Female");
-
-        private  String gender;
-
-        Gender(String gender) {
-            this.gender = gender;
-        }
-
-        public String toString() {
-            return gender;
-        }
+        MALE,
+        FEMALE
     }
 }
