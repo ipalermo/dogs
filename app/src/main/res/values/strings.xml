@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="app_name">Dog List</string>
+    <string name="add_dog">Create dog</string>
+    <string name="edit_dog">Edit dog</string>
+    <string name="loading_dogs_error">Error while loading dogs</string>
+    <string name="menu_add_dog">Add dog</string>
+    <string name="menu_clear">Clear completed</string>
+    <string name="menu_delete_dog">Delete dog</string>
+    <string name="menu_done">Done</string>
+    <string name="navigation_view_header_title">DogBuddy</string>
+    <string name="name_hint">Dog Name*</string>
+    <string name="description_hint">Enter your Dog here.</string>
+    <string name="empty_dog_message">Required Dog info is missing</string>
+    <string name="successfully_saved_dog_message">Dog data saved</string>
+    <string name="list_title">Dog List</string>
+    <string name="credits_title">Credits</string>
+    <string name="no_data">No data</string>
+    <string name="author">Ignacio Palermo</string>
+    <string name="author_email">nacho.palermo84@gmail.com</string>
+    <string name="no_dogs_yet">You haven´t added any dogs yet</string>
+    <string name="no_dogs_add">ADD YOUR FIRST DOG</string>
+    <string name="refresh">Refresh</string>
+    <string name="successfully_deleted_dog_message">Dog was deleted</string>
+    <string name="successfully_added_dog_message">Dog added</string>
+    <string name="no_data_description"/>
+    <string name="label_basic_info">Basic information</string>
+
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <color name="primary">#FF5856</color>
+    <color name="primary_dark">#CC4644</color>
+    <color name="accent">#FF5252</color>
+
+    <color name="primary_text">#717171</color>
+    <color name="background_gray">#e9ecef</color>
+
+    <drawable name="completedTaskBackground">#CCCCCC</drawable>
+
+    <drawable name="touchFeedback">#CFD8DC</drawable>
+
+</resources>

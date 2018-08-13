@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewmodel"
+            type="com.dogbuddy.android.code.test.dogsapp.dogs.DogsViewModel" />
+
+    </data>
+
+<com.dogbuddy.android.code.test.dogsapp.ScrollChildSwipeRefreshLayout
+    android:id="@+id/refresh_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:onRefresh="@{viewmodel}"
+    app:refreshing="@{viewmodel.dataLoading}">
+
+    <RelativeLayout
+        android:id="@+id/dogsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/dogs_list"
+            app:items="@{viewmodel.items}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewmodel.empty ? View.GONE : View.VISIBLE}"/>
+
+        <LinearLayout
+            android:id="@+id/noDogs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:visibility="@{viewmodel.empty ? View.VISIBLE : View.GONE}">
+
+            <TextView
+                android:id="@+id/no_dogs_main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@{viewmodel.noDogsLabel}"
+                android:textColor="@color/primary_text"
+                android:layout_marginBottom="@dimen/list_item_padding"
+                tools:text="@string/no_dogs_yet"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:onClick="@{() -> viewmodel.addNewDog()}"
+                android:paddingStart="40dp"
+                android:paddingEnd="40dp"
+                android:text="@string/no_dogs_add"
+                android:theme="@style/PrimaryButton"
+                android:visibility="@{viewmodel.dogsAddViewVisible ? View.VISIBLE : View.GONE}" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</com.dogbuddy.android.code.test.dogsapp.ScrollChildSwipeRefreshLayout>
+</layout>
+

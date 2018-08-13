@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View.OnClickListener" />
+
+        <variable
+            name="breed"
+            type="com.dogbuddy.android.code.test.dogsapp.data.Breed" />
+
+        <variable
+            name="listener"
+            type="com.dogbuddy.android.code.test.dogsapp.dogs.BreedItemUserActionsListener" />
+    </data>
+
+    <TextView
+        android:id="@+id/spinner_text"
+        style="?attr/spinnerDropDownItemStyle"
+        android:singleLine="true"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/dropdownListPreferredItemHeight"
+        android:ellipsize="marquee"
+        android:text="@{breed.breed}"
+        tools:text="Dog Breed"/>
+
+</layout>
