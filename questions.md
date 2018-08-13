@@ -187,6 +187,31 @@ Problems:
 * No error handler.
 
 #### RxAndroid
+This alternative is based on Reactive Programming, which in a nutshell is a paradigm oriented around data flows and the propagation of change, a mix of the Observer and Iterable Pattern.
+In order to use this paradigm we have the RxJava library which is an implementation of the Reactive extensions and the RxAndroid library that provides mechanisms to communicate with the main thread.
+Example of use:
+```java
+//---
+
+Single.create((SingleOnSubscribe<String>) e -> e.onSuccess(makeBlockingTask()))
+    .subscribeOn(Schedulers.io()) //Run on IO Thread
+    .observeOn(AndroidSchedulers.mainThread()) //Run on UI Thread
+    .doOnSubscribe(__ -> showLoadingIndicator())
+    .doFinally(() -> hideLoadingIndicator())
+    .subscribe(this::processResult,
+         this::processError);
+
+//---
+```
+
+Advantages:
+* easy to use 
+* doesn’t generate much overhead in the code (no boilerplate code)
+* has a lot of operations that will facilitate the handling of data structures and prevent the famous Callback Hell
+* has error handler
+
+Problems:
+* it doesn’t solve the problem of persistence to changes of configuration.
 
 
 #### 2. How many ways do you know of persisting data and what are the advantages and disadvantages of each?
