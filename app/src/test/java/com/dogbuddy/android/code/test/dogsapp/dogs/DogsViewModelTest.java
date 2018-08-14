@@ -31,7 +31,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -48,18 +47,18 @@ public class DogsViewModelTest {
     private static List<Dog> DOGS;
 
     @Mock
-    private DogsRepository mTasksRepository;
+    private DogsRepository mDogsRepository;
 
     @Mock
     private Application mContext;
 
     @Captor
-    private ArgumentCaptor<LoadDogsCallback> mLoadTasksCallbackCaptor;
+    private ArgumentCaptor<LoadDogsCallback> mLoadDogsCallbackCaptor;
 
     private DogsViewModel mDogsViewModel;
 
     @Before
-    public void setupTasksViewModel() {
+    public void setupDogsViewModel() {
         // Mockito has a very convenient way to inject mocks by using the @Mock annotation. To
         // inject the mocks in the test the initMocks method needs to be called.
         MockitoAnnotations.initMocks(this);
@@ -67,11 +66,11 @@ public class DogsViewModelTest {
         setupContext();
 
         // Get a reference to the class under test
-        mDogsViewModel = new DogsViewModel(mContext, mTasksRepository);
+        mDogsViewModel = new DogsViewModel(mContext, mDogsRepository);
 
-        // We initialise the dogs to 3, with one active and two completed
-        DOGS = Lists.newArrayList(new DogBuilder().setName("Title1").setBreed("Description1").createDog(),
-                new DogBuilder().setName("Title2").setBreed("Description2").setId(true).createDog(), new DogBuilder().setName("Title3").setBreed("Description3").setId(true).createDog());
+        DOGS = Lists.newArrayList(new DogBuilder().setName("Name1").setBreed("Breed1").createDog(),
+                new DogBuilder().setName("Name2").setBreed("Breed2").createDog(),
+                new DogBuilder().setName("Name3").setBreed("Breed3").createDog());
 
         mDogsViewModel.getSnackbarMessage().removeObservers(TestUtils.TEST_OBSERVER);
 
@@ -90,19 +89,18 @@ public class DogsViewModelTest {
     }
 
     @Test
-    public void loadAllTasksFromRepository_dataLoaded() {
+    public void loadAllDogsFromRepository_dataLoaded() {
         // Given an initialized DogsViewModel with initialized dogs
-        // When loading of Tasks is requested
-        mDogsViewModel.setFiltering(TasksFilterType.ALL_DOGS);
+        // When loading of Dogs is requested
         mDogsViewModel.loadDogs(true);
 
         // Callback is captured and invoked with stubbed dogs
-        verify(mTasksRepository).getDogs(mLoadTasksCallbackCaptor.capture());
+        verify(mDogsRepository).getDogs(mLoadDogsCallbackCaptor.capture());
 
 
         // Then progress indicator is shown
         assertTrue(mDogsViewModel.dataLoading.get());
-        mLoadTasksCallbackCaptor.getValue().onDogsLoaded(DOGS);
+        mLoadDogsCallbackCaptor.getValue().onDogsLoaded(DOGS);
 
         // Then progress indicator is hidden
         assertFalse(mDogsViewModel.dataLoading.get());
@@ -113,45 +111,7 @@ public class DogsViewModelTest {
     }
 
     @Test
-    public void loadActiveTasksFromRepositoryAndLoadIntoView() {
-        // Given an initialized DogsViewModel with initialized dogs
-        // When loading of Tasks is requested
-        mDogsViewModel.setFiltering(TasksFilterType.ACTIVE_DOGS);
-        mDogsViewModel.loadDogs(true);
-
-        // Callback is captured and invoked with stubbed dogs
-        verify(mTasksRepository).getDogs(mLoadTasksCallbackCaptor.capture());
-        mLoadTasksCallbackCaptor.getValue().onDogsLoaded(DOGS);
-
-        // Then progress indicator is hidden
-        assertFalse(mDogsViewModel.dataLoading.get());
-
-        // And data loaded
-        assertFalse(mDogsViewModel.items.isEmpty());
-        assertTrue(mDogsViewModel.items.size() == 1);
-    }
-
-    @Test
-    public void loadCompletedTasksFromRepositoryAndLoadIntoView() {
-        // Given an initialized DogsViewModel with initialized dogs
-        // When loading of Tasks is requested
-        mDogsViewModel.setFiltering(TasksFilterType.COMPLETED_DOGS);
-        mDogsViewModel.loadDogs(true);
-
-        // Callback is captured and invoked with stubbed dogs
-        verify(mTasksRepository).getDogs(mLoadTasksCallbackCaptor.capture());
-        mLoadTasksCallbackCaptor.getValue().onDogsLoaded(DOGS);
-
-        // Then progress indicator is hidden
-        assertFalse(mDogsViewModel.dataLoading.get());
-
-        // And data loaded
-        assertFalse(mDogsViewModel.items.isEmpty());
-        assertTrue(mDogsViewModel.items.size() == 2);
-    }
-
-    @Test
-    public void clickOnFab_ShowsAddTaskUi() {
+    public void clickOnFab_ShowsAddDogUi() {
 
         Observer<Void> observer = mock(Observer.class);
 
@@ -162,16 +122,6 @@ public class DogsViewModelTest {
 
         // Then the event is triggered
         verify(observer).onChanged(null);
-    }
-
-    @Test
-    public void clearCompletedTasks_ClearsTasks() {
-        // When completed dogs are cleared
-        mDogsViewModel.clearCompletedTasks();
-
-        // Then repository is called and the view is notified
-        verify(mTasksRepository).clearCompletedTasks();
-        verify(mTasksRepository).getDogs(any(LoadDogsCallback.class));
     }
 
     @Test
@@ -219,10 +169,7 @@ public class DogsViewModelTest {
     }
 
     @Test
-    public void getTasksAddViewVisible() {
-        // When the filter type is ALL_DOGS
-        mDogsViewModel.setFiltering(TasksFilterType.ALL_DOGS);
-
+    public void getDogsAddViewVisible() {
         // Then the "Add dog" action is visible
         assertThat(mDogsViewModel.dogsAddViewVisible.get(), is(true));
     }

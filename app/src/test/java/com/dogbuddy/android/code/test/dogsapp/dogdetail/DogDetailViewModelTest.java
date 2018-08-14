@@ -40,16 +40,16 @@ public class DogDetailViewModelTest {
     @Rule
     public InstantTaskExecutorRule instantExecutorRule = new InstantTaskExecutorRule();
 
-    private static final String TITLE_TEST = "name";
+    private static final String NAME_TEST = "name";
 
-    private static final String DESCRIPTION_TEST = "breed";
+    private static final String BREED_TEST = "breed";
 
     private static final String NO_DATA_STRING = "NO_DATA_STRING";
 
     private static final String NO_DATA_DESC_STRING = "NO_DATA_DESC_STRING";
 
     @Mock
-    private DogsRepository mTasksRepository;
+    private DogsRepository mDogsRepository;
 
     @Mock
     private Application mContext;
@@ -61,24 +61,24 @@ public class DogDetailViewModelTest {
     private DogsDataSource.GetDogCallback mViewModelCallback;
 
     @Captor
-    private ArgumentCaptor<DogsDataSource.GetDogCallback> mGetTaskCallbackCaptor;
+    private ArgumentCaptor<DogsDataSource.GetDogCallback> mGetDogCallbackCaptor;
 
-    private DogDetailViewModel mTaskDetailViewModel;
+    private DogDetailViewModel mDogDetailViewModel;
 
     private Dog mDog;
 
     @Before
-    public void setupTasksViewModel() {
+    public void setupDogsViewModel() {
         // Mockito has a very convenient way to inject mocks by using the @Mock annotation. To
         // inject the mocks in the test the initMocks method needs to be called.
         MockitoAnnotations.initMocks(this);
 
         setupContext();
 
-        mDog = new DogBuilder().setName(TITLE_TEST).setBreed(DESCRIPTION_TEST).createDog();
+        mDog = new DogBuilder().setName(NAME_TEST).setBreed(BREED_TEST).createDog();
 
         // Get a reference to the class under test
-        mTaskDetailViewModel = new DogDetailViewModel(mContext, mTasksRepository);
+        mDogDetailViewModel = new DogDetailViewModel(mContext, mDogsRepository);
     }
 
     private void setupContext() {
@@ -89,98 +89,72 @@ public class DogDetailViewModelTest {
     }
 
     @Test
-    public void getActiveTaskFromRepositoryAndLoadIntoView() {
+    public void getActiveDogFromRepositoryAndLoadIntoView() {
         setupViewModelRepositoryCallback();
 
         // Then verify that the view was notified
-        assertEquals(mTaskDetailViewModel.dog.get().getName(), mDog.getName());
-        assertEquals(mTaskDetailViewModel.dog.get().getBreed(), mDog.getBreed());
+        assertEquals(mDogDetailViewModel.dog.get().getName(), mDog.getName());
+        assertEquals(mDogDetailViewModel.dog.get().getBreed(), mDog.getBreed());
     }
 
     @Test
-    public void deleteTask() {
+    public void deleteDog() {
         setupViewModelRepositoryCallback();
 
         // When the deletion of a dog is requested
-        mTaskDetailViewModel.deleteDog();
+        mDogDetailViewModel.deleteDog();
 
         // Then the repository is notified
-        verify(mTasksRepository).deleteDog(mDog.getId());
+        verify(mDogsRepository).deleteDog(mDog.getId());
     }
 
     @Test
-    public void completeTask() {
-        setupViewModelRepositoryCallback();
-
-        // When the ViewModel is asked to complete the dog
-        mTaskDetailViewModel.setCompleted(true);
-
-        // Then a request is sent to the dog repository and the UI is updated
-        verify(mTasksRepository).completeTask(mDog);
-        assertThat(mTaskDetailViewModel.getSnackbarMessage().getValue(),
-                is(R.string.dog_marked_complete));
-    }
-
-    @Test
-    public void activateTask() {
-        setupViewModelRepositoryCallback();
-
-        // When the ViewModel is asked to complete the dog
-        mTaskDetailViewModel.setCompleted(false);
-
-        // Then a request is sent to the dog repository and the UI is updated
-        verify(mTasksRepository).activateTask(mDog);
-        assertThat(mTaskDetailViewModel.getSnackbarMessage().getValue(),
-                is(R.string.dog_marked_active));
-    }
-
-    @Test
-    public void TaskDetailViewModel_repositoryError() {
+    public void DogDetailViewModel_repositoryError() {
         // Given an initialized ViewModel with an active dog
         mViewModelCallback = mock(DogsDataSource.GetDogCallback.class);
 
-        mTaskDetailViewModel.start(mDog.getId());
+        mDogDetailViewModel.start(mDog.getId());
 
         // Use a captor to get a reference for the callback.
-        verify(mTasksRepository).getDog(eq(mDog.getId()), mGetTaskCallbackCaptor.capture());
+        verify(mDogsRepository).getDog(eq(mDog.getId()), mGetDogCallbackCaptor.capture());
 
         // When the repository returns an error
-        mGetTaskCallbackCaptor.getValue().onDataNotAvailable(); // Trigger callback error
+        mGetDogCallbackCaptor.getValue().onDataNotAvailable(); // Trigger callback error
 
         // Then verify that data is not available
-        assertFalse(mTaskDetailViewModel.isDataAvailable());
+        assertFalse(mDogDetailViewModel.isDataAvailable());
     }
 
     @Test
-    public void TaskDetailViewModel_repositoryNull() {
+    public void DogDetailViewModel_repositoryNull() {
         setupViewModelRepositoryCallback();
 
         // When the repository returns a null dog
-        mGetTaskCallbackCaptor.getValue().onDogLoaded(null); // Trigger callback error
+        mGetDogCallbackCaptor.getValue().onDogLoaded(null); // Trigger callback error
 
         // Then verify that data is not available
-        assertFalse(mTaskDetailViewModel.isDataAvailable());
+        assertFalse(mDogDetailViewModel.isDataAvailable());
 
         // Then dog detail UI is shown
-        assertThat(mTaskDetailViewModel.dog.get(), is(nullValue()));
+        assertThat(mDogDetailViewModel.dog.get(), is(nullValue()));
     }
 
     private void setupViewModelRepositoryCallback() {
         // Given an initialized ViewModel with an active dog
         mViewModelCallback = mock(DogsDataSource.GetDogCallback.class);
 
-        mTaskDetailViewModel.start(mDog.getId());
+        mDogDetailViewModel.start(mDog.getId());
 
         // Use a captor to get a reference for the callback.
-        verify(mTasksRepository).getDog(eq(mDog.getId()), mGetTaskCallbackCaptor.capture());
+        verify(mDogsRepository).getDog(eq(mDog.getId()), mGetDogCallbackCaptor.capture());
 
-        mGetTaskCallbackCaptor.getValue().onDogLoaded(mDog); // Trigger callback
+        mGetDogCallbackCaptor.getValue().onDogLoaded(mDog); // Trigger callback
     }
 
     @Test
     public void updateSnackbar_nullValue() {
         // Before setting the Snackbar text, get its current value
-        SnackbarMessage snackbarText = mTaskDetailViewModel.getSnackbarMessage();
+        SnackbarMessage snackbarText = mDogDetailViewModel.getSnackbarMessage();
 
         // Check that the value is null
         assertThat("Snackbar text does not match", snackbarText.getValue(), is(nullValue()));

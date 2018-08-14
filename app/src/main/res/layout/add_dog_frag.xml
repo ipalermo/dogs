@@ -168,7 +168,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
-                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"/>
+                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                        android:adapter="@{viewmodel.genderAdapter}"
+                        bind:selectedOption="@={viewmodel.gender}"/>
 
                 </LinearLayout>
 

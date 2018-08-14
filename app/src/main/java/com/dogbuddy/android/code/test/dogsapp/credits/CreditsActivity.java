@@ -40,7 +40,7 @@ public class CreditsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.statistics_act);
+        setContentView(R.layout.credits_act);
 
         setupToolbar();
 

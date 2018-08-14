@@ -11,6 +11,11 @@
     <string name="menu_done">Done</string>
     <string name="navigation_view_header_title">DogBuddy</string>
     <string name="name_hint">Dog Name*</string>
+    <string-array name="genders">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Unknown</item>
+    </string-array>
     <string name="description_hint">Enter your Dog here.</string>
     <string name="empty_dog_message">Required Dog info is missing</string>
     <string name="successfully_saved_dog_message">Dog data saved</string>

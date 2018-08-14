@@ -27,22 +27,22 @@ public class DogsRemoteDataSource implements DogsDataSource {
 
     static {
         DOGS_SERVICE_DATA = new LinkedHashMap<>(2);
-        addDog("Coco", "Labrador Retriever", "0");
-        addDog("Lola", "German Shepherd", "1");
-        addDog("Pirate", "Golden Retriever", "2");
-        addDog("Chester", "French Bulldog", "3");
-        addDog("Benson", "Beagle", "4");
-        addDog("Fiona", "Poodle", "5");
-        addDog("William", "Rottweiler", "6");
-        addDog("Kiera", "Yorkshire Terrier", "7");
-        addDog("Daisy", "Pointer", "8");
-        addDog("Lark", "Boxer", "12");
-        addDog("Jane", "Siberian Huskie", "13");
-        addDog("Mary", "Dachshunds", "14");
-        addDog("William", "Great Danes", "15");
-        addDog("Olivia", "Doberman", "16");
-        addDog("Wallace", "Miniature Schnauzer", "17");
-        addDog("Poppy", "Weimaraner", "18");
+        addDog("Coco", "Labrador Retriever", "0", "Male");
+        addDog("Lola", "German Shepherd", "1", "Female");
+        addDog("Pirate", "Golden Retriever", "2", "Male");
+        addDog("Chester", "French Bulldog", "3", "Male");
+        addDog("Benson", "Beagle", "4", "Male");
+        addDog("Fiona", "Poodle", "5", "Female");
+        addDog("William", "Rottweiler", "6", "Male");
+        addDog("Kiera", "Yorkshire Terrier", "7", "Female");
+        addDog("Daisy", "Pointer", "8", "Female");
+        addDog("Lark", "Boxer", "12", "Male");
+        addDog("Jane", "Siberian Huskie", "13", "Female");
+        addDog("Mary", "Dachshunds", "14", "Female");
+        addDog("William", "Great Danes", "15", "Male");
+        addDog("Olivia", "Doberman", "16", "Female");
+        addDog("Wallace", "Miniature Schnauzer", "17", "Male");
+        addDog("Poppy", "Weimaraner", "18", "Male");
     }
 
     static {
@@ -75,8 +75,13 @@ public class DogsRemoteDataSource implements DogsDataSource {
     // Prevent direct instantiation.
     private DogsRemoteDataSource() {}
 
-    private static void addDog(String name, String breed, String id) {
-        Dog newDog = new DogBuilder().setName(name).setBreed(breed).setId(id).createDog();
+    private static void addDog(String name, String breed, String id, String gender) {
+        Dog newDog = new DogBuilder()
+                .setName(name)
+                .setBreed(breed)
+                .setId(id)
+                .setGender(gender)
+                .createDog();
         DOGS_SERVICE_DATA.put(newDog.getId(), newDog);
     }
 

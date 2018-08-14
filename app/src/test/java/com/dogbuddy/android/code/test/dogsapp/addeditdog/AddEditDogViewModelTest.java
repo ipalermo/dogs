@@ -35,7 +35,7 @@ public class AddEditDogViewModelTest {
     public InstantTaskExecutorRule instantExecutorRule = new InstantTaskExecutorRule();
 
     @Mock
-    private DogsRepository mTasksRepository;
+    private DogsRepository mDogsRepository;
 
     /**
      * {@link ArgumentCaptor} is a powerful Mockito API to capture argument values and use them to
@@ -54,7 +54,7 @@ public class AddEditDogViewModelTest {
 
         // Get a reference to the class under test
         mAddEditDogViewModel = new AddEditDogViewModel(
-                mock(Application.class), mTasksRepository);
+                mock(Application.class), mDogsRepository);
     }
 
     @Test
@@ -65,7 +65,7 @@ public class AddEditDogViewModelTest {
         mAddEditDogViewModel.saveDog();
 
         // Then a dog is saved in the repository and the view updated
-        verify(mTasksRepository).saveDog(any(Dog.class)); // saved to the model
+        verify(mDogsRepository).saveDog(any(Dog.class)); // saved to the model
     }
 
     @Test
@@ -74,14 +74,14 @@ public class AddEditDogViewModelTest {
 
         // Get a reference to the class under test
         mAddEditDogViewModel = new AddEditDogViewModel(
-                mock(Application.class), mTasksRepository);
+                mock(Application.class), mDogsRepository);
 
 
         // When the ViewModel is asked to populate an existing dog
         mAddEditDogViewModel.start(testDog.getId());
 
         // Then the dog repository is queried and the view updated
-        verify(mTasksRepository).getDog(eq(testDog.getId()), mGetTaskCallbackCaptor.capture());
+        verify(mDogsRepository).getDog(eq(testDog.getId()), mGetTaskCallbackCaptor.capture());
 
         // Simulate callback
         mGetTaskCallbackCaptor.getValue().onDogLoaded(testDog);

@@ -1,5 +1,5 @@
 
-package com.dogbuddy.android.code.test.dogsapp.dogs;
+package com.dogbuddy.android.code.test.dogsapp.util.bindingadapters;
 
 import android.databinding.BindingAdapter;
 import android.databinding.InverseBindingAdapter;
@@ -10,6 +10,7 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 
 import com.dogbuddy.android.code.test.dogsapp.data.Breed;
+import com.dogbuddy.android.code.test.dogsapp.dogs.BreedsAdapter;
 
 import java.util.List;
 

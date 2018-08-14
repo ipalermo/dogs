@@ -5,6 +5,7 @@ import java.util.UUID;
 public class DogBuilder {
     private String name;
     private String breed;
+    private String gender;
     private String id = UUID.randomUUID().toString();
 
     public DogBuilder setName(String name) {
@@ -22,7 +23,12 @@ public class DogBuilder {
         return this;
     }
 
+    public DogBuilder setGender(String gender) {
+        this.gender = gender;
+        return this;
+    }
+
     public Dog createDog() {
-        return new Dog(name, breed, id);
+        return new Dog(name, breed, id, gender);
     }
 }

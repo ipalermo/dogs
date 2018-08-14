@@ -27,7 +27,7 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     private final Application mApplication;
 
-    private final DogsRepository mTasksRepository;
+    private final DogsRepository mDogsRepository;
 
     public static ViewModelFactory getInstance(Application application) {
 
@@ -49,7 +49,7 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     private ViewModelFactory(Application application, DogsRepository repository) {
         mApplication = application;
-        mTasksRepository = repository;
+        mDogsRepository = repository;
     }
 
     @Override
@@ -59,13 +59,13 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
             return (T) new CreditsViewModel(mApplication);
         } else if (modelClass.isAssignableFrom(DogDetailViewModel.class)) {
             //noinspection unchecked
-            return (T) new DogDetailViewModel(mApplication, mTasksRepository);
+            return (T) new DogDetailViewModel(mApplication, mDogsRepository);
         } else if (modelClass.isAssignableFrom(AddEditDogViewModel.class)) {
             //noinspection unchecked
-            return (T) new AddEditDogViewModel(mApplication, mTasksRepository);
+            return (T) new AddEditDogViewModel(mApplication, mDogsRepository);
         } else if (modelClass.isAssignableFrom(DogsViewModel.class)) {
             //noinspection unchecked
-            return (T) new DogsViewModel(mApplication, mTasksRepository);
+            return (T) new DogsViewModel(mApplication, mDogsRepository);
         }
         throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());
     }

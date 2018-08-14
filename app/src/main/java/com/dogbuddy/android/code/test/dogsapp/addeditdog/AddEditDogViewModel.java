@@ -3,11 +3,13 @@ package com.dogbuddy.android.code.test.dogsapp.addeditdog;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
+import android.content.Context;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableList;
 import android.support.annotation.Nullable;
+import android.widget.ArrayAdapter;
 
 import com.dogbuddy.android.code.test.dogsapp.R;
 import com.dogbuddy.android.code.test.dogsapp.SingleLiveEvent;
@@ -33,16 +35,19 @@ import java.util.List;
 public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSource.GetDogCallback, DogsDataSource.LoadBreedsCallback {
 
     public final ObservableField<String> name = new ObservableField<>();
-
     public final ObservableField<String> breed = new ObservableField<>();
+    public final ObservableField<String> gender = new ObservableField<>();
 
     public final ObservableList<Breed> breeds = new ObservableArrayList<>();
+    public final ObservableField<ArrayAdapter> genderAdapter = new ObservableField<>();
 
     public final ObservableBoolean dataLoading = new ObservableBoolean(false);
 
     private final SnackbarMessage mSnackbarText = new SnackbarMessage();
 
     private final SingleLiveEvent<Void> mDogUpdated = new SingleLiveEvent<>();
+
+    private final Context mContext; // To avoid leaks, this must be an Application Context.
 
     private final DogsRepository mDogsRepository;
 
@@ -56,7 +61,9 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
     public AddEditDogViewModel(Application context,
                                DogsRepository dogsRepository) {
         super(context);
+        mContext = context.getApplicationContext();
         mDogsRepository = dogsRepository;
+        setupSpinnerAdapters();
     }
 
     public void start(String dogId) {
@@ -65,19 +72,13 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
             return;
         }
         mDogId = dogId;
-        if (dogId == null) {
-            // No need to populate dog data since it's a new dog
-            mIsNewDog = true;
-            dataLoading.set(true);
-            return;
-        }
+        mIsNewDog = dogId == null;
+
         if (mIsDataLoaded) {
             // No need to populate, already have dog data.
             return;
         }
-        mIsNewDog = false;
         dataLoading.set(true);
-
         mDogsRepository.getBreeds(this);
     }
 
@@ -85,6 +86,7 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
     public void onDogLoaded(Dog dog) {
         name.set(dog.getName());
         breed.set(dog.getBreed());
+        gender.set(dog.getGender());
 
         mIsDataLoaded = true;
         dataLoading.set(false);
@@ -97,9 +99,12 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
     public void onBreedsLoaded(List<Breed> breeds) {
         this.breeds.clear();
         this.breeds.addAll(breeds);
+        dataLoading.set(false);
 
-        mDogsRepository.getDog(mDogId, this);
-
+        if (!mIsNewDog) {
+            dataLoading.set(true);
+            mDogsRepository.getDog(mDogId, this);
+        }
     }
 
     @Override
@@ -109,7 +114,11 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
 
     // Called when clicking on done icon.
     void saveDog() {
-        Dog dog = new DogBuilder().setName(name.get()).setBreed(breed.get()).createDog();
+        Dog dog = new DogBuilder()
+                .setName(name.get())
+                .setBreed(breed.get())
+                .setGender(gender.get())
+                .createDog();
         if (dog.isRequiredInfoMissing()) {
             mSnackbarText.setValue(R.string.empty_dog_message);
             return;
@@ -117,7 +126,12 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
         if (isNewDog() || mDogId == null) {
             createDog(dog);
         } else {
-            dog = new DogBuilder().setName(name.get()).setBreed(breed.get()).setId(mDogId).createDog();
+            dog = new DogBuilder()
+                    .setName(name.get())
+                    .setBreed(breed.get())
+                    .setId(mDogId)
+                    .setGender(gender.get())
+                    .createDog();
             updateDog(dog);
         }
     }
@@ -130,7 +144,9 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
         return mDogUpdated;
     }
 
-
+    private void setupSpinnerAdapters() {
+        genderAdapter.set(ArrayAdapter.createFromResource(mContext, R.array.genders, android.R.layout.simple_spinner_dropdown_item));
+    }
 
     private boolean isNewDog() {
         return mIsNewDog;

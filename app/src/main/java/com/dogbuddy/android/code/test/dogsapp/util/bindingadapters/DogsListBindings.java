@@ -1,10 +1,11 @@
 
-package com.dogbuddy.android.code.test.dogsapp.dogs;
+package com.dogbuddy.android.code.test.dogsapp.util.bindingadapters;
 
 import android.databinding.BindingAdapter;
 import android.widget.ListView;
 
 import com.dogbuddy.android.code.test.dogsapp.data.Dog;
+import com.dogbuddy.android.code.test.dogsapp.dogs.DogsAdapter;
 
 import java.util.List;
 
