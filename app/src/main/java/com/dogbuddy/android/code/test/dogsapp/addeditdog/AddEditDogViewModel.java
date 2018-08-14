@@ -145,7 +145,9 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
     }
 
     private void setupSpinnerAdapters() {
-        genderAdapter.set(ArrayAdapter.createFromResource(mContext, R.array.genders, android.R.layout.simple_spinner_dropdown_item));
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mContext, R.array.genders, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        genderAdapter.set(adapter);
     }
 
     private boolean isNewDog() {

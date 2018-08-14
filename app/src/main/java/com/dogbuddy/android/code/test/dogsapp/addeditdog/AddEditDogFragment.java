@@ -109,6 +109,7 @@ public class AddEditDogFragment extends Fragment {
 
     private void setupSpinners() {
         setupBreedsSpinnerAdapter();
+        setupGenderSpinnerAdapter();
     }
 
     private void setupBreedsSpinnerAdapter() {
@@ -119,6 +120,11 @@ public class AddEditDogFragment extends Fragment {
                 mViewModel
         );
         breedsSpinner.setAdapter(mBreedsAdapter);
+    }
+
+    private void setupGenderSpinnerAdapter() {
+        AppCompatSpinner genderSpinner =  mViewDataBinding.gender;
+        genderSpinner.setAdapter(mViewModel.genderAdapter.get());
     }
 
     @Override
