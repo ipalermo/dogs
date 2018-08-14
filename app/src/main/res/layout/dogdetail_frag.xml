@@ -68,7 +68,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
-                android:id="@+id/task_detail_breed"
+                android:id="@+id/dog_detail_breed"
                 android:layout_below="@id/dog_detail_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

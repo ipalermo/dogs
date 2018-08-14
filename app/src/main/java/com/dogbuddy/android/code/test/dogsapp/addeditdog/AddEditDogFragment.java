@@ -29,7 +29,7 @@ import java.util.ArrayList;
  */
 public class AddEditDogFragment extends Fragment {
 
-    public static final String ARGUMENT_EDIT_TASK_ID = "EDIT_TASK_ID";
+    public static final String ARGUMENT_EDIT_DOG_ID = "EDIT_DOG_ID";
 
     private AddEditDogViewModel mViewModel;
 
@@ -61,7 +61,7 @@ public class AddEditDogFragment extends Fragment {
     private void loadData() {
         // Add or edit an existing dog?
         if (getArguments() != null) {
-            mViewModel.start(getArguments().getString(ARGUMENT_EDIT_TASK_ID));
+            mViewModel.start(getArguments().getString(ARGUMENT_EDIT_DOG_ID));
         } else {
             mViewModel.start(null);
         }
@@ -100,7 +100,7 @@ public class AddEditDogFragment extends Fragment {
         if (actionBar == null) {
             return;
         }
-        if (getArguments() != null && getArguments().get(ARGUMENT_EDIT_TASK_ID) != null) {
+        if (getArguments() != null && getArguments().get(ARGUMENT_EDIT_DOG_ID) != null) {
             actionBar.setTitle(R.string.edit_dog);
         } else {
             actionBar.setTitle(R.string.add_dog);

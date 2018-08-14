@@ -10,6 +10,7 @@ import com.dogbuddy.android.code.test.dogsapp.R;
 import com.dogbuddy.android.code.test.dogsapp.TestUtils;
 import com.dogbuddy.android.code.test.dogsapp.addeditdog.AddEditDogActivity;
 import com.dogbuddy.android.code.test.dogsapp.data.Dog;
+import com.dogbuddy.android.code.test.dogsapp.data.DogBuilder;
 import com.dogbuddy.android.code.test.dogsapp.data.source.DogsDataSource.LoadDogsCallback;
 import com.dogbuddy.android.code.test.dogsapp.data.source.DogsRepository;
 import com.dogbuddy.android.code.test.dogsapp.dogdetail.DogDetailActivity;
@@ -44,7 +45,7 @@ public class DogsViewModelTest {
     @Rule
     public InstantTaskExecutorRule instantExecutorRule = new InstantTaskExecutorRule();
 
-    private static List<Dog> TASKS;
+    private static List<Dog> DOGS;
 
     @Mock
     private DogsRepository mTasksRepository;
@@ -68,9 +69,9 @@ public class DogsViewModelTest {
         // Get a reference to the class under test
         mDogsViewModel = new DogsViewModel(mContext, mTasksRepository);
 
-        // We initialise the tasks to 3, with one active and two completed
-        TASKS = Lists.newArrayList(new Dog("Title1", "Description1"),
-                new Dog("Title2", "Description2", true), new Dog("Title3", "Description3", true));
+        // We initialise the dogs to 3, with one active and two completed
+        DOGS = Lists.newArrayList(new DogBuilder().setName("Title1").setBreed("Description1").createDog(),
+                new DogBuilder().setName("Title2").setBreed("Description2").setId(true).createDog(), new DogBuilder().setName("Title3").setBreed("Description3").setId(true).createDog());
 
         mDogsViewModel.getSnackbarMessage().removeObservers(TestUtils.TEST_OBSERVER);
 
@@ -90,18 +91,18 @@ public class DogsViewModelTest {
 
     @Test
     public void loadAllTasksFromRepository_dataLoaded() {
-        // Given an initialized DogsViewModel with initialized tasks
+        // Given an initialized DogsViewModel with initialized dogs
         // When loading of Tasks is requested
-        mDogsViewModel.setFiltering(TasksFilterType.ALL_TASKS);
+        mDogsViewModel.setFiltering(TasksFilterType.ALL_DOGS);
         mDogsViewModel.loadDogs(true);
 
-        // Callback is captured and invoked with stubbed tasks
+        // Callback is captured and invoked with stubbed dogs
         verify(mTasksRepository).getDogs(mLoadTasksCallbackCaptor.capture());
 
 
         // Then progress indicator is shown
         assertTrue(mDogsViewModel.dataLoading.get());
-        mLoadTasksCallbackCaptor.getValue().onDogsLoaded(TASKS);
+        mLoadTasksCallbackCaptor.getValue().onDogsLoaded(DOGS);
 
         // Then progress indicator is hidden
         assertFalse(mDogsViewModel.dataLoading.get());
@@ -113,14 +114,14 @@ public class DogsViewModelTest {
 
     @Test
     public void loadActiveTasksFromRepositoryAndLoadIntoView() {
-        // Given an initialized DogsViewModel with initialized tasks
+        // Given an initialized DogsViewModel with initialized dogs
         // When loading of Tasks is requested
-        mDogsViewModel.setFiltering(TasksFilterType.ACTIVE_TASKS);
+        mDogsViewModel.setFiltering(TasksFilterType.ACTIVE_DOGS);
         mDogsViewModel.loadDogs(true);
 
-        // Callback is captured and invoked with stubbed tasks
+        // Callback is captured and invoked with stubbed dogs
         verify(mTasksRepository).getDogs(mLoadTasksCallbackCaptor.capture());
-        mLoadTasksCallbackCaptor.getValue().onDogsLoaded(TASKS);
+        mLoadTasksCallbackCaptor.getValue().onDogsLoaded(DOGS);
 
         // Then progress indicator is hidden
         assertFalse(mDogsViewModel.dataLoading.get());
@@ -132,14 +133,14 @@ public class DogsViewModelTest {
 
     @Test
     public void loadCompletedTasksFromRepositoryAndLoadIntoView() {
-        // Given an initialized DogsViewModel with initialized tasks
+        // Given an initialized DogsViewModel with initialized dogs
         // When loading of Tasks is requested
-        mDogsViewModel.setFiltering(TasksFilterType.COMPLETED_TASKS);
+        mDogsViewModel.setFiltering(TasksFilterType.COMPLETED_DOGS);
         mDogsViewModel.loadDogs(true);
 
-        // Callback is captured and invoked with stubbed tasks
+        // Callback is captured and invoked with stubbed dogs
         verify(mTasksRepository).getDogs(mLoadTasksCallbackCaptor.capture());
-        mLoadTasksCallbackCaptor.getValue().onDogsLoaded(TASKS);
+        mLoadTasksCallbackCaptor.getValue().onDogsLoaded(DOGS);
 
         // Then progress indicator is hidden
         assertFalse(mDogsViewModel.dataLoading.get());
@@ -165,7 +166,7 @@ public class DogsViewModelTest {
 
     @Test
     public void clearCompletedTasks_ClearsTasks() {
-        // When completed tasks are cleared
+        // When completed dogs are cleared
         mDogsViewModel.clearCompletedTasks();
 
         // Then repository is called and the view is notified
@@ -219,8 +220,8 @@ public class DogsViewModelTest {
 
     @Test
     public void getTasksAddViewVisible() {
-        // When the filter type is ALL_TASKS
-        mDogsViewModel.setFiltering(TasksFilterType.ALL_TASKS);
+        // When the filter type is ALL_DOGS
+        mDogsViewModel.setFiltering(TasksFilterType.ALL_DOGS);
 
         // Then the "Add dog" action is visible
         assertThat(mDogsViewModel.dogsAddViewVisible.get(), is(true));

@@ -80,6 +80,6 @@ public final class Breed {
 
     @Override
     public String toString() {
-        return "Breed " + mBreed;
+        return mBreed;
     }
 }

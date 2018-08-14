@@ -16,7 +16,7 @@ import java.util.Map;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Concrete implementation to load tasks from the data sources into a cache.
+ * Concrete implementation to load dogs from the data sources into a cache.
  * <p>
  * For simplicity, this implements a dumb synchronisation between locally persisted data and data
  * obtained from the server, by using the remote data source only if the local database doesn't
@@ -55,15 +55,15 @@ public class DogsRepository implements DogsDataSource {
      * Returns the single instance of this class, creating it if necessary.
      *
      * @param dogsRemoteDataSource the backend data source
-     * @param tasksLocalDataSource  the device storage data source
+     * @param dogsLocalDataSource  the device storage data source
      * @return the {@link DogsRepository} instance
      */
     public static DogsRepository getInstance(DogsDataSource dogsRemoteDataSource,
-                                             DogsDataSource tasksLocalDataSource) {
+                                             DogsDataSource dogsLocalDataSource) {
         if (INSTANCE == null) {
             synchronized (DogsRepository.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new DogsRepository(dogsRemoteDataSource, tasksLocalDataSource);
+                    INSTANCE = new DogsRepository(dogsRemoteDataSource, dogsLocalDataSource);
                 }
             }
         }
@@ -79,7 +79,7 @@ public class DogsRepository implements DogsDataSource {
     }
 
     /**
-     * Gets tasks from cache, local data source (SQLite) or remote data source, whichever is
+     * Gets dogs from cache, local data source (SQLite) or remote data source, whichever is
      * available first.
      * <p>
      * Note: {@link LoadDogsCallback#onDataNotAvailable()} is fired if all data sources fail to
@@ -176,7 +176,7 @@ public class DogsRepository implements DogsDataSource {
 
 
     /**
-     * Gets tasks from local data source (sqlite) unless the table is new or empty. In that case it
+     * Gets dogs from local data source (sqlite) unless the table is new or empty. In that case it
      * uses the network data source. This is done to simplify the sample.
      * <p>
      * Note: {@link GetDogCallback#onDataNotAvailable()} is fired if both data sources fail to
@@ -272,11 +272,11 @@ public class DogsRepository implements DogsDataSource {
     }
 
     @Override
-    public void deleteDog(@NonNull String taskId) {
-        mDogsRemoteDataSource.deleteDog(checkNotNull(taskId));
-        mDogsLocalDataSource.deleteDog(checkNotNull(taskId));
+    public void deleteDog(@NonNull String dogId) {
+        mDogsRemoteDataSource.deleteDog(checkNotNull(dogId));
+        mDogsLocalDataSource.deleteDog(checkNotNull(dogId));
 
-        mCachedDogs.remove(taskId);
+        mCachedDogs.remove(dogId);
     }
 
     private void getDogsFromRemoteDataSource(@NonNull final LoadDogsCallback callback) {

@@ -15,6 +15,7 @@ import com.dogbuddy.android.code.test.dogsapp.SnackbarMessage;
 import com.dogbuddy.android.code.test.dogsapp.credits.CreditsViewModel;
 import com.dogbuddy.android.code.test.dogsapp.data.Breed;
 import com.dogbuddy.android.code.test.dogsapp.data.Dog;
+import com.dogbuddy.android.code.test.dogsapp.data.DogBuilder;
 import com.dogbuddy.android.code.test.dogsapp.data.source.DogsDataSource;
 import com.dogbuddy.android.code.test.dogsapp.data.source.DogsRepository;
 
@@ -68,7 +69,6 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
             // No need to populate dog data since it's a new dog
             mIsNewDog = true;
             dataLoading.set(true);
-            mDogsRepository.getBreeds(this);
             return;
         }
         if (mIsDataLoaded) {
@@ -78,29 +78,28 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
         mIsNewDog = false;
         dataLoading.set(true);
 
-        mDogsRepository.getDog(dogId, this);
+        mDogsRepository.getBreeds(this);
     }
 
     @Override
     public void onDogLoaded(Dog dog) {
         name.set(dog.getName());
         breed.set(dog.getBreed());
-//        breed.notifyChange();
 
         mIsDataLoaded = true;
+        dataLoading.set(false);
 
         // Note that there's no need to notify that the values changed because I´m using
         // ObservableFields.
-
-        mDogsRepository.getBreeds(this);
     }
 
     @Override
     public void onBreedsLoaded(List<Breed> breeds) {
-        dataLoading.set(false);
-
         this.breeds.clear();
         this.breeds.addAll(breeds);
+
+        mDogsRepository.getDog(mDogId, this);
+
     }
 
     @Override
@@ -110,15 +109,15 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
 
     // Called when clicking on done icon.
     void saveDog() {
-        Dog dog = new Dog(name.get(), breed.get());
-        if (dog.isEmpty()) {
+        Dog dog = new DogBuilder().setName(name.get()).setBreed(breed.get()).createDog();
+        if (dog.isRequiredInfoMissing()) {
             mSnackbarText.setValue(R.string.empty_dog_message);
             return;
         }
         if (isNewDog() || mDogId == null) {
             createDog(dog);
         } else {
-            dog = new Dog(name.get(), breed.get());
+            dog = new DogBuilder().setName(name.get()).setBreed(breed.get()).setId(mDogId).createDog();
             updateDog(dog);
         }
     }

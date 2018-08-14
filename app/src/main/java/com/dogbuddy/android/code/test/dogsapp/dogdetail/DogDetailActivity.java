@@ -39,7 +39,7 @@ import static com.dogbuddy.android.code.test.dogsapp.dogdetail.DogDetailFragment
 /**
  * Displays dog details screen.
  */
-public class DogDetailActivity extends AppCompatActivity implements TaskDetailNavigator {
+public class DogDetailActivity extends AppCompatActivity implements DogDetailNavigator {
 
     public static final String EXTRA_DOG_ID = "DOG_ID";
 
@@ -70,13 +70,13 @@ public class DogDetailActivity extends AppCompatActivity implements TaskDetailNa
     @NonNull
     private DogDetailFragment findOrCreateViewFragment() {
         // Get the requested dog id
-        String taskId = getIntent().getStringExtra(EXTRA_DOG_ID);
+        String dogId = getIntent().getStringExtra(EXTRA_DOG_ID);
 
         DogDetailFragment dogDetailFragment = (DogDetailFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);
 
         if (dogDetailFragment == null) {
-            dogDetailFragment = DogDetailFragment.newInstance(taskId);
+            dogDetailFragment = DogDetailFragment.newInstance(dogId);
         }
         return dogDetailFragment;
     }
@@ -103,13 +103,13 @@ public class DogDetailActivity extends AppCompatActivity implements TaskDetailNa
         viewModel.getEditDogCommand().observe(this, new Observer<Void>() {
             @Override
             public void onChanged(@Nullable Void v) {
-                DogDetailActivity.this.onStartEditTask();
+                DogDetailActivity.this.onStartEditDog();
             }
         });
         viewModel.getDeleteDogCommand().observe(this, new Observer<Void>() {
             @Override
             public void onChanged(@Nullable Void v) {
-                DogDetailActivity.this.onTaskDeleted();
+                DogDetailActivity.this.onDogDeleted();
             }
         });
     }
@@ -133,17 +133,17 @@ public class DogDetailActivity extends AppCompatActivity implements TaskDetailNa
     }
 
     @Override
-    public void onTaskDeleted() {
+    public void onDogDeleted() {
         setResult(DELETE_RESULT_OK);
         // If the dog was deleted successfully, go back to the list.
         finish();
     }
 
     @Override
-    public void onStartEditTask() {
-        String taskId = getIntent().getStringExtra(EXTRA_DOG_ID);
+    public void onStartEditDog() {
+        String dogId = getIntent().getStringExtra(EXTRA_DOG_ID);
         Intent intent = new Intent(this, AddEditDogActivity.class);
-        intent.putExtra(AddEditDogFragment.ARGUMENT_EDIT_TASK_ID, taskId);
+        intent.putExtra(AddEditDogFragment.ARGUMENT_EDIT_DOG_ID, dogId);
         startActivityForResult(intent, REQUEST_EDIT_DOG);
     }
 

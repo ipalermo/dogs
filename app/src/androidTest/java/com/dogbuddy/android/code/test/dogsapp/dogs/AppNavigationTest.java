@@ -62,7 +62,7 @@ public class AppNavigationTest {
         openTasksScreen();
 
         // Check that Tasks Activity was opened.
-        onView(withId(R.id.tasksContainer)).check(matches(isDisplayed()));
+        onView(withId(R.id.dogsContainer)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -84,16 +84,16 @@ public class AppNavigationTest {
     public void Statistics_backNavigatesToTasks() {
         openStatisticsScreen();
 
-        // Press back to go back to the tasks list
+        // Press back to go back to the dogs list
         pressBack();
 
         // Check that Tasks Activity was restored.
-        onView(withId(R.id.tasksContainer)).check(matches(isDisplayed()));
+        onView(withId(R.id.dogsContainer)).check(matches(isDisplayed()));
     }
 
     @Test
     public void backFromTasksScreen_ExitsApp() {
-        // From the tasks screen, press back should exit the app.
+        // From the dogs screen, press back should exit the app.
         assertPressingBackExitsApp();
     }
 
@@ -104,7 +104,7 @@ public class AppNavigationTest {
         // Open the stats screen
         openStatisticsScreen();
 
-        // Open the tasks screen to restore the dog
+        // Open the dogs screen to restore the dog
         openTasksScreen();
 
         // Pressing back should exit app
@@ -126,7 +126,7 @@ public class AppNavigationTest {
                 .check(matches(isClosed(Gravity.LEFT))) // Left Drawer should be closed.
                 .perform(open()); // Open Drawer
 
-        // Start tasks list screen.
+        // Start dogs list screen.
         onView(withId(R.id.nav_view))
                 .perform(navigateTo(R.id.list_navigation_menu_item));
     }

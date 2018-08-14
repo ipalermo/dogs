@@ -44,7 +44,7 @@ import static com.dogbuddy.android.code.test.dogsapp.R.id.toolbar;
 @LargeTest
 public class AddEditDogScreenTest {
 
-    private static final String TASK_ID = "1";
+    private static final String DOG_ID = "1";
 
     /**
      * {@link IntentsTestRule} is an {@link ActivityTestRule} which inits and releases Espresso
@@ -84,9 +84,9 @@ public class AddEditDogScreenTest {
 
         // Add invalid name and breed combination
         onView(withId(R.id.add_dog_name)).perform(clearText());
-        onView(withId(R.id.add_task_description)).perform(clearText());
+        onView(withId(R.id.add_dog_description)).perform(clearText());
         // Try to save the dog
-        onView(withId(R.id.fab_edit_task_done)).perform(click());
+        onView(withId(R.id.fab_edit_dog_done)).perform(click());
 
         // Verify that the activity is still displayed (a correct dog would close it).
         onView(withId(R.id.add_dog_name)).check(matches(isDisplayed()));
@@ -111,8 +111,8 @@ public class AddEditDogScreenTest {
     public void toolbarTitle_editTask_persistsRotation() {
         // Put a dog in the repository and start the activity to edit it
         DogsRepository.destroyInstance();
-        FakeDogsRemoteDataSource.getInstance().addDogs(new Dog("Title1", "", TASK_ID, false));
-        launchNewTaskActivity(TASK_ID);
+        FakeDogsRemoteDataSource.getInstance().addDogs(new Dog("Title1", "", DOG_ID, false));
+        launchNewTaskActivity(DOG_ID);
 
         // Check that the toolbar shows the correct name
         onView(withId(toolbar)).check(matches(withToolbarTitle(R.string.edit_dog)));
@@ -125,13 +125,13 @@ public class AddEditDogScreenTest {
     }
 
     /**
-     * @param taskId is null if used to add a new dog, otherwise it edits the dog.
+     * @param dogId is null if used to add a new dog, otherwise it edits the dog.
      */
-    private void launchNewTaskActivity(@Nullable String taskId) {
+    private void launchNewTaskActivity(@Nullable String dogId) {
         Intent intent = new Intent(InstrumentationRegistry.getInstrumentation()
                 .getTargetContext(), AddEditDogActivity.class);
 
-        intent.putExtra(AddEditTaskFragment.ARGUMENT_EDIT_TASK_ID, taskId);
+        intent.putExtra(AddEditTaskFragment.ARGUMENT_EDIT_DOG_ID, dogId);
         mActivityTestRule.launchActivity(intent);
     }
 

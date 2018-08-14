@@ -6,6 +6,7 @@ import android.app.Application;
 import android.arch.core.executor.testing.InstantTaskExecutorRule;
 
 import com.dogbuddy.android.code.test.dogsapp.data.Dog;
+import com.dogbuddy.android.code.test.dogsapp.data.DogBuilder;
 import com.dogbuddy.android.code.test.dogsapp.data.source.DogsDataSource;
 import com.dogbuddy.android.code.test.dogsapp.data.source.DogsRepository;
 
@@ -69,7 +70,7 @@ public class AddEditDogViewModelTest {
 
     @Test
     public void populateTask_callsRepoAndUpdatesView() {
-        Dog testDog = new Dog("TITLE", "DESCRIPTION", "1");
+        Dog testDog = new DogBuilder().setName("TITLE").setBreed("DESCRIPTION").setId("1").createDog();
 
         // Get a reference to the class under test
         mAddEditDogViewModel = new AddEditDogViewModel(

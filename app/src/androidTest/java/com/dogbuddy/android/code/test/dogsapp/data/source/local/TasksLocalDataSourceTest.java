@@ -17,6 +17,7 @@ import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.dogbuddy.android.code.test.dogsapp.data.Dog;
+import com.dogbuddy.android.code.test.dogsapp.data.DogBuilder;
 import com.dogbuddy.android.code.test.dogsapp.data.source.DogsDataSource;
 import com.dogbuddy.android.code.test.dogsapp.util.SingleExecutors;
 
@@ -71,7 +72,7 @@ public class TasksLocalDataSourceTest {
     @Test
     public void saveTask_retrievesTask() {
         // Given a new dog
-        final Dog newDog = new Dog(TITLE, "");
+        final Dog newDog = new DogBuilder().setName(TITLE).setBreed("").createDog();
 
         // When saved into the persistent repository
         mLocalDataSource.saveDog(newDog);
@@ -95,7 +96,7 @@ public class TasksLocalDataSourceTest {
         // Initialize mock for the callback.
         DogsDataSource.GetDogCallback callback = mock(DogsDataSource.GetDogCallback.class);
         // Given a new dog in the persistent repository
-        final Dog newDog = new Dog(TITLE, "");
+        final Dog newDog = new DogBuilder().setName(TITLE).setBreed("").createDog();
         mLocalDataSource.saveDog(newDog);
 
         // When completed in the persistent repository
@@ -122,7 +123,7 @@ public class TasksLocalDataSourceTest {
         DogsDataSource.GetDogCallback callback = mock(DogsDataSource.GetDogCallback.class);
 
         // Given a new completed dog in the persistent repository
-        final Dog newDog = new Dog(TITLE, "");
+        final Dog newDog = new DogBuilder().setName(TITLE).setBreed("").createDog();
         mLocalDataSource.saveDog(newDog);
         mLocalDataSource.completeTask(newDog);
 
@@ -139,26 +140,26 @@ public class TasksLocalDataSourceTest {
     }
 
     @Test
-    public void clearCompletedTask_taskNotRetrievable() {
+    public void clearCompletedTask_dogNotRetrievable() {
         // Initialize mocks for the callbacks.
         DogsDataSource.GetDogCallback callback1 = mock(DogsDataSource.GetDogCallback.class);
         DogsDataSource.GetDogCallback callback2 = mock(DogsDataSource.GetDogCallback.class);
         DogsDataSource.GetDogCallback callback3 = mock(DogsDataSource.GetDogCallback.class);
 
-        // Given 2 new completed tasks and 1 active dog in the persistent repository
-        final Dog newDog1 = new Dog(TITLE, "");
+        // Given 2 new completed dogs and 1 active dog in the persistent repository
+        final Dog newDog1 = new DogBuilder().setName(TITLE).setBreed("").createDog();
         mLocalDataSource.saveDog(newDog1);
         mLocalDataSource.completeTask(newDog1);
-        final Dog newDog2 = new Dog(TITLE2, "");
+        final Dog newDog2 = new DogBuilder().setName(TITLE2).setBreed("").createDog();
         mLocalDataSource.saveDog(newDog2);
         mLocalDataSource.completeTask(newDog2);
-        final Dog newDog3 = new Dog(TITLE3, "");
+        final Dog newDog3 = new DogBuilder().setName(TITLE3).setBreed("").createDog();
         mLocalDataSource.saveDog(newDog3);
 
-        // When completed tasks are cleared in the repository
+        // When completed dogs are cleared in the repository
         mLocalDataSource.clearCompletedTasks();
 
-        // Then the completed tasks cannot be retrieved and the active one can
+        // Then the completed dogs cannot be retrieved and the active one can
         mLocalDataSource.getDog(newDog1.getId(), callback1);
 
         verify(callback1).onDataNotAvailable();
@@ -178,14 +179,14 @@ public class TasksLocalDataSourceTest {
     @Test
     public void deleteAllTasks_emptyListOfRetrievedTask() {
         // Given a new dog in the persistent repository and a mocked callback
-        Dog newDog = new Dog(TITLE, "");
+        Dog newDog = new DogBuilder().setName(TITLE).setBreed("").createDog();
         mLocalDataSource.saveDog(newDog);
         DogsDataSource.LoadDogsCallback callback = mock(DogsDataSource.LoadDogsCallback.class);
 
-        // When all tasks are deleted
+        // When all dogs are deleted
         mLocalDataSource.deleteAllDogs();
 
-        // Then the retrieved tasks is an empty list
+        // Then the retrieved dogs is an empty list
         mLocalDataSource.getDogs(callback);
 
         verify(callback).onDataNotAvailable();
@@ -194,13 +195,13 @@ public class TasksLocalDataSourceTest {
 
     @Test
     public void getTasks_retrieveSavedTasks() {
-        // Given 2 new tasks in the persistent repository
-        final Dog newDog1 = new Dog(TITLE, "");
+        // Given 2 new dogs in the persistent repository
+        final Dog newDog1 = new DogBuilder().setName(TITLE).setBreed("").createDog();
         mLocalDataSource.saveDog(newDog1);
-        final Dog newDog2 = new Dog(TITLE, "");
+        final Dog newDog2 = new DogBuilder().setName(TITLE).setBreed("").createDog();
         mLocalDataSource.saveDog(newDog2);
 
-        // Then the tasks can be retrieved from the persistent repository
+        // Then the dogs can be retrieved from the persistent repository
         mLocalDataSource.getDogs(new DogsDataSource.LoadDogsCallback() {
             @Override
             public void onDogsLoaded(List<Dog> dogs) {

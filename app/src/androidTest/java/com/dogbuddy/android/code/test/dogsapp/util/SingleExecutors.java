@@ -21,7 +21,7 @@ import android.support.annotation.NonNull;
 import java.util.concurrent.Executor;
 
 /**
- * Allow instant execution of tasks.
+ * Allow instant execution of dogs.
  */
 public class SingleExecutors extends AppExecutors {
     private static Executor instant = new Executor() {

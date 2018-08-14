@@ -6,10 +6,10 @@ import android.support.annotation.NonNull;
 
 import com.dogbuddy.android.code.test.dogsapp.data.Breed;
 import com.dogbuddy.android.code.test.dogsapp.data.Dog;
+import com.dogbuddy.android.code.test.dogsapp.data.DogBuilder;
 import com.dogbuddy.android.code.test.dogsapp.data.source.DogsDataSource;
 import com.google.common.collect.Lists;
 
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -76,7 +76,7 @@ public class DogsRemoteDataSource implements DogsDataSource {
     private DogsRemoteDataSource() {}
 
     private static void addDog(String name, String breed, String id) {
-        Dog newDog = new Dog(name, breed, id);
+        Dog newDog = new DogBuilder().setName(name).setBreed(breed).setId(id).createDog();
         DOGS_SERVICE_DATA.put(newDog.getId(), newDog);
     }
 
@@ -130,8 +130,8 @@ public class DogsRemoteDataSource implements DogsDataSource {
      * returns an error.
      */
     @Override
-    public void getDog(@NonNull String taskId, final @NonNull GetDogCallback callback) {
-        final Dog dog = DOGS_SERVICE_DATA.get(taskId);
+    public void getDog(@NonNull String dogId, final @NonNull GetDogCallback callback) {
+        final Dog dog = DOGS_SERVICE_DATA.get(dogId);
 
         // Simulate network by delaying the execution.
         Handler handler = new Handler();
@@ -151,7 +151,7 @@ public class DogsRemoteDataSource implements DogsDataSource {
     @Override
     public void refreshDogs() {
         // Not required because the {@link DogsRepository} handles the logic of refreshing the
-        // tasks from all the available data sources.
+        // dogs from all the available data sources.
     }
 
     @Override

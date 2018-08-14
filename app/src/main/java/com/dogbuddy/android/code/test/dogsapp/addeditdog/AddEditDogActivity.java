@@ -86,8 +86,8 @@ public class AddEditDogActivity extends AppCompatActivity implements AddEditDogN
 
             // Send the dog ID to the fragment
             Bundle bundle = new Bundle();
-            bundle.putString(AddEditDogFragment.ARGUMENT_EDIT_TASK_ID,
-                    getIntent().getStringExtra(AddEditDogFragment.ARGUMENT_EDIT_TASK_ID));
+            bundle.putString(AddEditDogFragment.ARGUMENT_EDIT_DOG_ID,
+                    getIntent().getStringExtra(AddEditDogFragment.ARGUMENT_EDIT_DOG_ID));
             addEditDogFragment.setArguments(bundle);
         }
         return addEditDogFragment;

@@ -46,7 +46,7 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.IsNot.not;
 
 /**
- * Tests for the tasks screen, the main screen which contains a list of all tasks.
+ * Tests for the dogs screen, the main screen which contains a list of all dogs.
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -106,7 +106,7 @@ public class TasksScreenTest {
     @Test
     public void clickAddTaskButton_opensAddTaskUi() {
         // Click on the add dog button
-        onView(withId(R.id.fab_add_task)).perform(click());
+        onView(withId(R.id.fab_add_dog)).perform(click());
 
         // Check if the add dog screen is displayed
         onView(withId(R.id.add_dog_name)).check(matches(isDisplayed()));
@@ -129,11 +129,11 @@ public class TasksScreenTest {
         // Edit dog name and breed
         onView(withId(R.id.add_dog_name))
                 .perform(replaceText(editTaskTitle), closeSoftKeyboard()); // Type new dog name
-        onView(withId(R.id.add_task_description)).perform(replaceText(editTaskDescription),
+        onView(withId(R.id.add_dog_description)).perform(replaceText(editTaskDescription),
                 closeSoftKeyboard()); // Type new dog breed and close the keyboard
 
         // Save the dog
-        onView(withId(R.id.fab_edit_task_done)).perform(click());
+        onView(withId(R.id.fab_edit_dog_done)).perform(click());
 
         // Verify dog is displayed on screen in the dog list.
         onView(withItemText(editTaskTitle)).check(matches(isDisplayed()));
@@ -191,11 +191,11 @@ public class TasksScreenTest {
 
     @Test
     public void showAllTasks() {
-        // Add 2 active tasks
+        // Add 2 active dogs
         createTask(TITLE1, DESCRIPTION);
         createTask(TITLE2, DESCRIPTION);
 
-        //Verify that all our tasks are shown
+        //Verify that all our dogs are shown
         viewAllTasks();
         onView(withItemText(TITLE1)).check(matches(isDisplayed()));
         onView(withItemText(TITLE2)).check(matches(isDisplayed()));
@@ -203,11 +203,11 @@ public class TasksScreenTest {
 
     @Test
     public void showActiveTasks() {
-        // Add 2 active tasks
+        // Add 2 active dogs
         createTask(TITLE1, DESCRIPTION);
         createTask(TITLE2, DESCRIPTION);
 
-        //Verify that all our tasks are shown
+        //Verify that all our dogs are shown
         viewActiveTasks();
         onView(withItemText(TITLE1)).check(matches(isDisplayed()));
         onView(withItemText(TITLE2)).check(matches(isDisplayed()));
@@ -215,13 +215,13 @@ public class TasksScreenTest {
 
     @Test
     public void showCompletedTasks() {
-        // Add 2 completed tasks
+        // Add 2 completed dogs
         createTask(TITLE1, DESCRIPTION);
         clickCheckBoxForTask(TITLE1);
         createTask(TITLE2, DESCRIPTION);
         clickCheckBoxForTask(TITLE2);
 
-        // Verify that all our tasks are shown
+        // Verify that all our dogs are shown
         viewCompletedTasks();
         onView(withItemText(TITLE1)).check(matches(isDisplayed()));
         onView(withItemText(TITLE2)).check(matches(isDisplayed()));
@@ -231,7 +231,7 @@ public class TasksScreenTest {
     public void clearCompletedTasks() {
         viewAllTasks();
 
-        // Add 2 complete tasks
+        // Add 2 complete dogs
         createTask(TITLE1, DESCRIPTION);
         clickCheckBoxForTask(TITLE1);
         createTask(TITLE2, DESCRIPTION);
@@ -241,7 +241,7 @@ public class TasksScreenTest {
         openActionBarOverflowOrOptionsMenu(getTargetContext());
         onView(withText(R.string.menu_clear)).perform(click());
 
-        //Verify that completed tasks are not shown
+        //Verify that completed dogs are not shown
         onView(withItemText(TITLE1)).check(matches(not(isDisplayed())));
         onView(withItemText(TITLE2)).check(matches(not(isDisplayed())));
     }
@@ -266,7 +266,7 @@ public class TasksScreenTest {
 
     @Test
     public void createTwoTasks_deleteOneTask() {
-        // Add 2 active tasks
+        // Add 2 active dogs
         createTask(TITLE1, DESCRIPTION);
         createTask(TITLE2, DESCRIPTION);
 
@@ -283,7 +283,7 @@ public class TasksScreenTest {
     }
 
     @Test
-    public void markTaskAsCompleteOnDetailScreen_taskIsCompleteInList() {
+    public void markTaskAsCompleteOnDetailScreen_dogIsCompleteInList() {
         viewAllTasks();
 
         // Add 1 active dog
@@ -293,7 +293,7 @@ public class TasksScreenTest {
         onView(withText(TITLE1)).perform(click());
 
         // Click on the checkbox in dog details screen
-        onView(withId(R.id.task_detail_complete)).perform(click());
+        onView(withId(R.id.dog_detail_complete)).perform(click());
 
         // Click on the navigation up button to go back to the list
         onView(withContentDescription(getToolbarNavigationContentDescription())).perform(click());
@@ -304,7 +304,7 @@ public class TasksScreenTest {
     }
 
     @Test
-    public void markTaskAsActiveOnDetailScreen_taskIsActiveInList() {
+    public void markTaskAsActiveOnDetailScreen_dogIsActiveInList() {
         viewAllTasks();
 
         // Add 1 completed dog
@@ -315,7 +315,7 @@ public class TasksScreenTest {
         onView(withText(TITLE1)).perform(click());
 
         // Click on the checkbox in dog details screen
-        onView(withId(R.id.task_detail_complete)).perform(click());
+        onView(withId(R.id.dog_detail_complete)).perform(click());
 
         // Click on the navigation up button to go back to the list
         onView(withContentDescription(getToolbarNavigationContentDescription())).perform(click());
@@ -326,7 +326,7 @@ public class TasksScreenTest {
     }
 
     @Test
-    public void markTaskAsAcompleteAndActiveOnDetailScreen_taskIsActiveInList() {
+    public void markTaskAsAcompleteAndActiveOnDetailScreen_dogIsActiveInList() {
         viewAllTasks();
 
         // Add 1 active dog
@@ -336,10 +336,10 @@ public class TasksScreenTest {
         onView(withText(TITLE1)).perform(click());
 
         // Click on the checkbox in dog details screen
-        onView(withId(R.id.task_detail_complete)).perform(click());
+        onView(withId(R.id.dog_detail_complete)).perform(click());
 
         // Click again to restore it to original state
-        onView(withId(R.id.task_detail_complete)).perform(click());
+        onView(withId(R.id.dog_detail_complete)).perform(click());
 
         // Click on the navigation up button to go back to the list
         onView(withContentDescription(getToolbarNavigationContentDescription())).perform(click());
@@ -350,7 +350,7 @@ public class TasksScreenTest {
     }
 
     @Test
-    public void markTaskAsActiveAndCompleteOnDetailScreen_taskIsCompleteInList() {
+    public void markTaskAsActiveAndCompleteOnDetailScreen_dogIsCompleteInList() {
         viewAllTasks();
 
         // Add 1 completed dog
@@ -361,10 +361,10 @@ public class TasksScreenTest {
         onView(withText(TITLE1)).perform(click());
 
         // Click on the checkbox in dog details screen
-        onView(withId(R.id.task_detail_complete)).perform(click());
+        onView(withId(R.id.dog_detail_complete)).perform(click());
 
         // Click again to restore it to original state
-        onView(withId(R.id.task_detail_complete)).perform(click());
+        onView(withId(R.id.dog_detail_complete)).perform(click());
 
         // Click on the navigation up button to go back to the list
         onView(withContentDescription(getToolbarNavigationContentDescription())).perform(click());
@@ -381,10 +381,10 @@ public class TasksScreenTest {
         createTask(TITLE1, DESCRIPTION);
         clickCheckBoxForTask(TITLE1);
 
-        // when switching to active tasks
+        // when switching to active dogs
         viewActiveTasks();
 
-        // then no tasks should appear
+        // then no dogs should appear
         onView(withText(TITLE1)).check(matches(not(isDisplayed())));
 
         // when rotating the screen
@@ -401,7 +401,7 @@ public class TasksScreenTest {
         createTask(TITLE1, DESCRIPTION);
         clickCheckBoxForTask(TITLE1);
 
-        // when switching to completed tasks
+        // when switching to completed dogs
         viewCompletedTasks();
 
         // the completed dog should be displayed
@@ -456,11 +456,11 @@ public class TasksScreenTest {
         // Edit dog name and breed
         onView(withId(R.id.add_dog_name))
                 .perform(replaceText(TITLE2), closeSoftKeyboard()); // Type new dog name
-        onView(withId(R.id.add_task_description)).perform(replaceText(DESCRIPTION),
+        onView(withId(R.id.add_dog_description)).perform(replaceText(DESCRIPTION),
                 closeSoftKeyboard()); // Type new dog breed and close the keyboard
 
         // Save the dog
-        onView(withId(R.id.fab_edit_task_done)).perform(click());
+        onView(withId(R.id.fab_edit_dog_done)).perform(click());
 
         // Verify dog is displayed on screen in the dog list.
         onView(withItemText(TITLE2)).check(matches(isDisplayed()));
@@ -471,7 +471,7 @@ public class TasksScreenTest {
 
     @Test
     public void noTasks_AllTasksFilter_AddTaskViewVisible() {
-        // Given an empty list of tasks, make sure "All tasks" filter is on
+        // Given an empty list of dogs, make sure "All dogs" filter is on
         viewAllTasks();
 
         // Add dog View should be displayed
@@ -480,7 +480,7 @@ public class TasksScreenTest {
 
     @Test
     public void noTasks_CompletedTasksFilter_AddTaskViewNotVisible() {
-        // Given an empty list of tasks, make sure "All tasks" filter is on
+        // Given an empty list of dogs, make sure "All dogs" filter is on
         viewCompletedTasks();
 
         // Add dog View should be displayed
@@ -489,7 +489,7 @@ public class TasksScreenTest {
 
     @Test
     public void noTasks_ActiveTasksFilter_AddTaskViewNotVisible() {
-        // Given an empty list of tasks, make sure "All tasks" filter is on
+        // Given an empty list of dogs, make sure "All dogs" filter is on
         viewActiveTasks();
 
         // Add dog View should be displayed
@@ -513,16 +513,16 @@ public class TasksScreenTest {
 
     private void createTask(String title, String description) {
         // Click on the add dog button
-        onView(withId(R.id.fab_add_task)).perform(click());
+        onView(withId(R.id.fab_add_dog)).perform(click());
 
         // Add dog name and breed
         onView(withId(R.id.add_dog_name)).perform(typeText(title),
                 closeSoftKeyboard()); // Type new dog name
-        onView(withId(R.id.add_task_description)).perform(typeText(description),
+        onView(withId(R.id.add_dog_description)).perform(typeText(description),
                 closeSoftKeyboard()); // Type new dog breed and close the keyboard
 
         // Save the dog
-        onView(withId(R.id.fab_edit_task_done)).perform(click());
+        onView(withId(R.id.fab_edit_dog_done)).perform(click());
     }
 
     private void clickCheckBoxForTask(String title) {

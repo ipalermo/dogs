@@ -6,6 +6,7 @@ import android.app.Application;
 import android.arch.core.executor.testing.InstantTaskExecutorRule;
 
 import com.dogbuddy.android.code.test.dogsapp.data.Dog;
+import com.dogbuddy.android.code.test.dogsapp.data.DogBuilder;
 import com.dogbuddy.android.code.test.dogsapp.data.source.DogsDataSource;
 import com.dogbuddy.android.code.test.dogsapp.data.source.DogsRepository;
 import com.google.common.collect.Lists;
@@ -33,7 +34,7 @@ public class CreditsViewModelTest {
     @Rule
     public InstantTaskExecutorRule instantExecutorRule = new InstantTaskExecutorRule();
 
-    private static List<Dog> TASKS;
+    private static List<Dog> DOGS;
 
     @Mock
     private DogsRepository mTasksRepository;
@@ -52,22 +53,22 @@ public class CreditsViewModelTest {
         // Get a reference to the class under test
         mCreditsViewModel = new CreditsViewModel(mock(Application.class));
 
-        // We initialise the tasks to 3, with one active and two completed
-        TASKS = Lists.newArrayList(new Dog("Title1", "Description1"),
-                new Dog("Title2", "Description2", true), new Dog("Title3", "Description3", true));
+        // We initialise the dogs to 3, with one active and two completed
+        DOGS = Lists.newArrayList(new DogBuilder().setName("Title1").setBreed("Description1").createDog(),
+                new DogBuilder().setName("Title2").setBreed("Description2").setId(true).createDog(), new DogBuilder().setName("Title3").setBreed("Description3").setId(true).createDog());
     }
 
     @Test
     public void loadEmptyTasksFromRepository_EmptyResults() {
-        // Given an initialized CreditsViewModel with no tasks
-        TASKS.clear();
+        // Given an initialized CreditsViewModel with no dogs
+        DOGS.clear();
 
         // When loading of Tasks is requested
         mCreditsViewModel.loadStatistics();
 
-        // Callback is captured and invoked with stubbed tasks
+        // Callback is captured and invoked with stubbed dogs
         verify(mTasksRepository).getDogs(mLoadTasksCallbackCaptor.capture());
-        mLoadTasksCallbackCaptor.getValue().onDogsLoaded(TASKS);
+        mLoadTasksCallbackCaptor.getValue().onDogsLoaded(DOGS);
 
         // Then the results are empty
         assertThat(mCreditsViewModel.empty.get(), is(true));
@@ -78,9 +79,9 @@ public class CreditsViewModelTest {
         // When loading of Tasks is requested
         mCreditsViewModel.loadStatistics();
 
-        // Callback is captured and invoked with stubbed tasks
+        // Callback is captured and invoked with stubbed dogs
         verify(mTasksRepository).getDogs(mLoadTasksCallbackCaptor.capture());
-        mLoadTasksCallbackCaptor.getValue().onDogsLoaded(TASKS);
+        mLoadTasksCallbackCaptor.getValue().onDogsLoaded(DOGS);
 
         // Then the results are empty
         assertThat(mCreditsViewModel.empty.get(), is(false));
@@ -92,7 +93,7 @@ public class CreditsViewModelTest {
         // When statistics are loaded
         mCreditsViewModel.loadStatistics();
 
-        // And tasks data isn't available
+        // And dogs data isn't available
         verify(mTasksRepository).getDogs(mLoadTasksCallbackCaptor.capture());
         mLoadTasksCallbackCaptor.getValue().onDataNotAvailable();
 

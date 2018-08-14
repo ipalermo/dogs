@@ -9,7 +9,7 @@ import com.dogbuddy.android.code.test.dogsapp.data.Dog;
 import java.util.List;
 
 /**
- * Main entry point for accessing tasks data.
+ * Main entry point for accessing dogs data.
  */
 public interface DogsDataSource {
 
@@ -36,7 +36,7 @@ public interface DogsDataSource {
 
     void getDogs(@NonNull LoadDogsCallback callback);
 
-    void getDog(@NonNull String taskId, @NonNull GetDogCallback callback);
+    void getDog(@NonNull String dogId, @NonNull GetDogCallback callback);
     
     void getBreeds(@NonNull LoadBreedsCallback callback);
     
@@ -50,5 +50,5 @@ public interface DogsDataSource {
 
     void deleteAllBreeds();
 
-    void deleteDog(@NonNull String taskId);
+    void deleteDog(@NonNull String dogId);
 }

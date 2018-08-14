@@ -9,6 +9,7 @@ import android.content.res.Resources;
 import com.dogbuddy.android.code.test.dogsapp.R;
 import com.dogbuddy.android.code.test.dogsapp.SnackbarMessage;
 import com.dogbuddy.android.code.test.dogsapp.data.Dog;
+import com.dogbuddy.android.code.test.dogsapp.data.DogBuilder;
 import com.dogbuddy.android.code.test.dogsapp.data.source.DogsDataSource;
 import com.dogbuddy.android.code.test.dogsapp.data.source.DogsRepository;
 
@@ -74,7 +75,7 @@ public class DogDetailViewModelTest {
 
         setupContext();
 
-        mDog = new Dog(TITLE_TEST, DESCRIPTION_TEST);
+        mDog = new DogBuilder().setName(TITLE_TEST).setBreed(DESCRIPTION_TEST).createDog();
 
         // Get a reference to the class under test
         mTaskDetailViewModel = new DogDetailViewModel(mContext, mTasksRepository);
@@ -117,7 +118,7 @@ public class DogDetailViewModelTest {
         // Then a request is sent to the dog repository and the UI is updated
         verify(mTasksRepository).completeTask(mDog);
         assertThat(mTaskDetailViewModel.getSnackbarMessage().getValue(),
-                is(R.string.task_marked_complete));
+                is(R.string.dog_marked_complete));
     }
 
     @Test
@@ -130,7 +131,7 @@ public class DogDetailViewModelTest {
         // Then a request is sent to the dog repository and the UI is updated
         verify(mTasksRepository).activateTask(mDog);
         assertThat(mTaskDetailViewModel.getSnackbarMessage().getValue(),
-                is(R.string.task_marked_active));
+                is(R.string.dog_marked_active));
     }
 
     @Test

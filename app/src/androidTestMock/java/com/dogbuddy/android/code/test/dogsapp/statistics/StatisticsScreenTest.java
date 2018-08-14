@@ -57,13 +57,13 @@ public class StatisticsScreenTest {
      */
     @Before
     public void intentWithStubbedTaskId() {
-        // Given some tasks
+        // Given some dogs
         ViewModelFactory.destroyInstance();
-        DogsRepository tasksRepository = Injection.provideTasksRepository(
+        DogsRepository dogsRepository = Injection.provideTasksRepository(
                 InstrumentationRegistry.getTargetContext());
-        tasksRepository.deleteAllDogs();
-        tasksRepository.saveDog(new Dog("Title1", "", false));
-        tasksRepository.saveDog(new Dog("Title2", "", true));
+        dogsRepository.deleteAllDogs();
+        dogsRepository.saveDog(new Dog("Title1", "", false));
+        dogsRepository.saveDog(new Dog("Title2", "", true));
 
         // Lazily start the Activity from the ActivityTestRule
         Intent startIntent = new Intent();
@@ -83,12 +83,12 @@ public class StatisticsScreenTest {
 
     @Test
     public void Tasks_ShowsNonEmptyMessage() throws Exception {
-        // Check that the active and completed tasks text is displayed
+        // Check that the active and completed dogs text is displayed
         String expectedActiveTaskText = InstrumentationRegistry.getTargetContext()
-                .getString(R.string.statistics_active_tasks, 1);
+                .getString(R.string.statistics_active_dogs, 1);
         onView(withText(containsString(expectedActiveTaskText))).check(matches(isDisplayed()));
         String expectedCompletedTaskText = InstrumentationRegistry.getTargetContext()
-                .getString(R.string.statistics_completed_tasks, 1);
+                .getString(R.string.statistics_completed_dogs, 1);
         onView(withText(containsString(expectedCompletedTaskText))).check(matches(isDisplayed()));
     }
 

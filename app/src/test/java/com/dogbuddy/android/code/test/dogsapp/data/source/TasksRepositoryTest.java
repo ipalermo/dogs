@@ -2,6 +2,7 @@
 package com.dogbuddy.android.code.test.dogsapp.data.source;
 
 import com.dogbuddy.android.code.test.dogsapp.data.Dog;
+import com.dogbuddy.android.code.test.dogsapp.data.DogBuilder;
 import com.google.common.collect.Lists;
 
 import org.junit.After;
@@ -28,14 +29,14 @@ import static org.mockito.Mockito.verify;
  */
 public class TasksRepositoryTest {
 
-    private final static String TASK_TITLE = "name";
+    private final static String DOG_TITLE = "name";
 
-    private final static String TASK_TITLE2 = "title2";
+    private final static String DOG_TITLE2 = "title2";
 
-    private final static String TASK_TITLE3 = "title3";
+    private final static String DOG_TITLE3 = "title3";
 
-    private static List<Dog> TASKS = Lists.newArrayList(new Dog("Title1", "Description1"),
-            new Dog("Title2", "Description2"));
+    private static List<Dog> DOGS = Lists.newArrayList(new DogBuilder().setName("Title1").setBreed("Description1").createDog(),
+            new DogBuilder().setName("Title2").setBreed("Description2").createDog());
 
     private DogsRepository mTasksRepository;
 
@@ -76,16 +77,16 @@ public class TasksRepositoryTest {
     @Test
     public void getTasks_repositoryCachesAfterFirstApiCall() {
         // Given a setup Captor to capture callbacks
-        // When two calls are issued to the tasks repository
+        // When two calls are issued to the dogs repository
         twoTasksLoadCallsToRepository(mLoadDogsCallback);
 
-        // Then tasks were only requested once from Service API
+        // Then dogs were only requested once from Service API
         verify(mTasksRemoteDataSource).getDogs(any(DogsDataSource.LoadDogsCallback.class));
     }
 
     @Test
     public void getTasks_requestsAllTasksFromLocalDataSource() {
-        // When tasks are requested from the tasks repository
+        // When dogs are requested from the tasks repository
         mTasksRepository.getDogs(mLoadDogsCallback);
 
         // Then tasks are loaded from the local data source
@@ -95,7 +96,7 @@ public class TasksRepositoryTest {
     @Test
     public void saveTask_savesTaskToServiceAPI() {
         // Given a stub dog with name and breed
-        Dog newDog = new Dog(TASK_TITLE, "Some Dog Description");
+        Dog newDog = new DogBuilder().setName(DOG_TITLE).setBreed("Some Dog Description").createDog();
 
         // When a dog is saved to the tasks repository
         mTasksRepository.saveDog(newDog);
@@ -109,7 +110,7 @@ public class TasksRepositoryTest {
     @Test
     public void completeTask_completesTaskToServiceAPIUpdatesCache() {
         // Given a stub active dog with name and breed added in the repository
-        Dog newDog = new Dog(TASK_TITLE, "Some Dog Description");
+        Dog newDog = new DogBuilder().setName(DOG_TITLE).setBreed("Some Dog Description").createDog();
         mTasksRepository.saveDog(newDog);
 
         // When a dog is completed to the tasks repository
@@ -125,7 +126,7 @@ public class TasksRepositoryTest {
     @Test
     public void completeTaskId_completesTaskToServiceAPIUpdatesCache() {
         // Given a stub active dog with name and breed added in the repository
-        Dog newDog = new Dog(TASK_TITLE, "Some Dog Description");
+        Dog newDog = new DogBuilder().setName(DOG_TITLE).setBreed("Some Dog Description").createDog();
         mTasksRepository.saveDog(newDog);
 
         // When a dog is completed using its id to the tasks repository
@@ -141,7 +142,7 @@ public class TasksRepositoryTest {
     @Test
     public void activateTask_activatesTaskToServiceAPIUpdatesCache() {
         // Given a stub completed dog with name and breed in the repository
-        Dog newDog = new Dog(TASK_TITLE, "Some Dog Description", true);
+        Dog newDog = new DogBuilder().setName(DOG_TITLE).setBreed("Some Dog Description").setId(true).createDog();
         mTasksRepository.saveDog(newDog);
 
         // When a completed dog is activated to the tasks repository
@@ -157,7 +158,7 @@ public class TasksRepositoryTest {
     @Test
     public void activateTaskId_activatesTaskToServiceAPIUpdatesCache() {
         // Given a stub completed dog with name and breed in the repository
-        Dog newDog = new Dog(TASK_TITLE, "Some Dog Description", true);
+        Dog newDog = new DogBuilder().setName(DOG_TITLE).setBreed("Some Dog Description").setId(true).createDog();
         mTasksRepository.saveDog(newDog);
 
         // When a completed dog is activated with its id to the tasks repository
@@ -173,21 +174,21 @@ public class TasksRepositoryTest {
     @Test
     public void getTask_requestsSingleTaskFromLocalDataSource() {
         // When a dog is requested from the tasks repository
-        mTasksRepository.getDog(TASK_TITLE, mGetDogCallback);
+        mTasksRepository.getDog(DOG_TITLE, mGetDogCallback);
 
         // Then the dog is loaded from the database
-        verify(mTasksLocalDataSource).getDog(eq(TASK_TITLE), any(
+        verify(mTasksLocalDataSource).getDog(eq(DOG_TITLE), any(
                 DogsDataSource.GetDogCallback.class));
     }
 
     @Test
     public void deleteCompletedTasks_deleteCompletedTasksToServiceAPIUpdatesCache() {
         // Given 2 stub completed tasks and 1 stub active tasks in the repository
-        Dog newDog = new Dog(TASK_TITLE, "Some Dog Description", true);
+        Dog newDog = new DogBuilder().setName(DOG_TITLE).setBreed("Some Dog Description").setId(true).createDog();
         mTasksRepository.saveDog(newDog);
-        Dog newDog2 = new Dog(TASK_TITLE2, "Some Dog Description");
+        Dog newDog2 = new DogBuilder().setName(DOG_TITLE2).setBreed("Some Dog Description").createDog();
         mTasksRepository.saveDog(newDog2);
-        Dog newDog3 = new Dog(TASK_TITLE3, "Some Dog Description", true);
+        Dog newDog3 = new DogBuilder().setName(DOG_TITLE3).setBreed("Some Dog Description").setId(true).createDog();
         mTasksRepository.saveDog(newDog3);
 
         // When a completed tasks are cleared to the tasks repository
@@ -200,17 +201,17 @@ public class TasksRepositoryTest {
 
         assertThat(mTasksRepository.mCachedDogs.size(), is(1));
         assertTrue(mTasksRepository.mCachedDogs.get(newDog2.getId()).isActive());
-        assertThat(mTasksRepository.mCachedDogs.get(newDog2.getId()).getName(), is(TASK_TITLE2));
+        assertThat(mTasksRepository.mCachedDogs.get(newDog2.getId()).getName(), is(DOG_TITLE2));
     }
 
     @Test
     public void deleteAllTasks_deleteTasksToServiceAPIUpdatesCache() {
         // Given 2 stub completed tasks and 1 stub active tasks in the repository
-        Dog newDog = new Dog(TASK_TITLE, "Some Dog Description", true);
+        Dog newDog = new DogBuilder().setName(DOG_TITLE).setBreed("Some Dog Description").setId(true).createDog();
         mTasksRepository.saveDog(newDog);
-        Dog newDog2 = new Dog(TASK_TITLE2, "Some Dog Description");
+        Dog newDog2 = new DogBuilder().setName(DOG_TITLE2).setBreed("Some Dog Description").createDog();
         mTasksRepository.saveDog(newDog2);
-        Dog newDog3 = new Dog(TASK_TITLE3, "Some Dog Description", true);
+        Dog newDog3 = new DogBuilder().setName(DOG_TITLE3).setBreed("Some Dog Description").setId(true).createDog();
         mTasksRepository.saveDog(newDog3);
 
         // When all tasks are deleted to the tasks repository
@@ -226,7 +227,7 @@ public class TasksRepositoryTest {
     @Test
     public void deleteTask_deleteTaskToServiceAPIRemovedFromCache() {
         // Given a dog in the repository
-        Dog newDog = new Dog(TASK_TITLE, "Some Dog Description", true);
+        Dog newDog = new DogBuilder().setName(DOG_TITLE).setBreed("Some Dog Description").setId(true).createDog();
         mTasksRepository.saveDog(newDog);
         assertThat(mTasksRepository.mCachedDogs.containsKey(newDog.getId()), is(true));
 
@@ -248,11 +249,11 @@ public class TasksRepositoryTest {
         mTasksRepository.getDogs(mLoadDogsCallback);
 
         // And the remote data source has data available
-        setTasksAvailable(mTasksRemoteDataSource, TASKS);
+        setTasksAvailable(mTasksRemoteDataSource, DOGS);
 
         // Verify the tasks from the remote data source are returned, not the local
         verify(mTasksLocalDataSource, never()).getDogs(mLoadDogsCallback);
-        verify(mLoadDogsCallback).onDogsLoaded(TASKS);
+        verify(mLoadDogsCallback).onDogsLoaded(DOGS);
     }
 
     @Test
@@ -264,10 +265,10 @@ public class TasksRepositoryTest {
         setTasksNotAvailable(mTasksLocalDataSource);
 
         // And the remote data source has data available
-        setTasksAvailable(mTasksRemoteDataSource, TASKS);
+        setTasksAvailable(mTasksRemoteDataSource, DOGS);
 
         // Verify the tasks from the local data source are returned
-        verify(mLoadDogsCallback).onDogsLoaded(TASKS);
+        verify(mLoadDogsCallback).onDogsLoaded(DOGS);
     }
 
     @Test
@@ -312,10 +313,10 @@ public class TasksRepositoryTest {
         mTasksRepository.getDogs(mLoadDogsCallback);
 
         // Make the remote data source return data
-        setTasksAvailable(mTasksRemoteDataSource, TASKS);
+        setTasksAvailable(mTasksRemoteDataSource, DOGS);
 
         // Verify that the data fetched from the remote data source was saved in local.
-        verify(mTasksLocalDataSource, times(TASKS.size())).saveDog(any(Dog.class));
+        verify(mTasksLocalDataSource, times(DOGS.size())).saveDog(any(Dog.class));
     }
 
     /**
@@ -336,7 +337,7 @@ public class TasksRepositoryTest {
         verify(mTasksRemoteDataSource).getDogs(mTasksCallbackCaptor.capture());
 
         // Trigger callback so tasks are cached
-        mTasksCallbackCaptor.getValue().onDogsLoaded(TASKS);
+        mTasksCallbackCaptor.getValue().onDogsLoaded(DOGS);
 
         mTasksRepository.getDogs(callback); // Second call to API
     }

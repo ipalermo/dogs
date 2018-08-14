@@ -76,11 +76,11 @@ public class DogsLocalDataSource implements DogsDataSource {
      * found.
      */
     @Override
-    public void getDog(@NonNull final String taskId, @NonNull final GetDogCallback callback) {
+    public void getDog(@NonNull final String dogId, @NonNull final GetDogCallback callback) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                final Dog dog = mDogsDao.getDogById(taskId);
+                final Dog dog = mDogsDao.getDogById(dogId);
 
                 mAppExecutors.mainThread().execute(new Runnable() {
                     @Override
@@ -160,7 +160,7 @@ public class DogsLocalDataSource implements DogsDataSource {
     @Override
     public void refreshDogs() {
         // Not required because the {@link DogsRepository} handles the logic of refreshing the
-        // tasks from all the available data sources.
+        // dogs from all the available data sources.
     }
 
     @Override
@@ -176,11 +176,11 @@ public class DogsLocalDataSource implements DogsDataSource {
     }
 
     @Override
-    public void deleteDog(@NonNull final String taskId) {
+    public void deleteDog(@NonNull final String dogId) {
         Runnable deleteRunnable = new Runnable() {
             @Override
             public void run() {
-                mDogsDao.deleteDogById(taskId);
+                mDogsDao.deleteDogById(dogId);
             }
         };
 

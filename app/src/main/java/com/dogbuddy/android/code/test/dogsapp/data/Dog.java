@@ -13,6 +13,7 @@ import com.google.common.base.Strings;
 
 import java.util.UUID;
 
+
 /**
  * Immutable model class for a Dog.
  */
@@ -28,18 +29,22 @@ public final class Dog {
     @ColumnInfo(name = "name")
     private final String mName;
 
-    @Nullable
+    @NonNull
     @ColumnInfo(name = "breed")
     private final String mBreed;
 
+    @Nullable
+    @ColumnInfo(name = "gender")
+    private final String mGender;
+
     /**
-     * Use this constructor to create a new active Dog.
+     * Use this constructor to create a new Dog.
      *
      * @param name       name of the dog
      * @param breed breed of the dog
      */
     @Ignore
-    public Dog(@NonNull String name, @Nullable String breed) {
+    public Dog(@NonNull String name, @NonNull String breed) {
         this(name, breed, UUID.randomUUID().toString());
     }
 
@@ -51,10 +56,16 @@ public final class Dog {
      * @param breed breed of the dog
      * @param id          id of the dog
      */
-    public Dog(@NonNull String name, @Nullable String breed, @NonNull String id) {
+    @Ignore
+    public Dog(@NonNull String name, @NonNull String breed, @NonNull String id) {
+        this(name, breed, id, "");
+    }
+
+    public Dog(@NonNull String name, @NonNull String breed, @NonNull String id, @Nullable String gender) {
         this.mName = name;
         this.mBreed = breed;
         this.mId = id;
+        this.mGender = gender;
     }
 
     @NonNull
@@ -67,12 +78,17 @@ public final class Dog {
         return mName;
     }
 
-    @Nullable
+    @NonNull
     public String getBreed() {
         return mBreed;
     }
 
-    public boolean isEmpty() {
+    @Nullable
+    public String getGender() {
+        return mGender;
+    }
+
+    public boolean isRequiredInfoMissing() {
         return Strings.isNullOrEmpty(mName) ||
                Strings.isNullOrEmpty(mBreed);
     }
@@ -95,10 +111,5 @@ public final class Dog {
     @Override
     public String toString() {
         return "Dog with name " + mName;
-    }
-
-    public enum Gender {
-        MALE,
-        FEMALE
     }
 }

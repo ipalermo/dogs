@@ -54,10 +54,13 @@ public class BreedsListBindings {
     @InverseBindingAdapter(attribute = "bind:breed",
     event = "bind:breedAttrChanged")
     public static String getBreed(final AppCompatSpinner spinner) {
-       return ((Breed)spinner.getSelectedItem()).toString();
+       return spinner.getSelectedItem().toString();
     }
 
     private static int getIndexOfItem(AppCompatSpinner spinner, String breedString) {
+        if (spinner == null || breedString == null)
+            return 0;
+
         Adapter a = spinner.getAdapter();
 
         for (int i = 0; i < a.getCount(); i++) {

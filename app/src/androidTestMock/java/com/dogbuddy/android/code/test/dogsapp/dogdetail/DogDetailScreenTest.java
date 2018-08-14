@@ -32,25 +32,25 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.core.IsNot.not;
 
 /**
- * Tests for the tasks screen, the main screen which contains a list of all tasks.
+ * Tests for the dogs screen, the main screen which contains a list of all dogs.
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class DogDetailScreenTest {
 
-    private static String TASK_TITLE = "ATSL";
+    private static String DOG_TITLE = "ATSL";
 
-    private static String TASK_DESCRIPTION = "Rocks";
-
-    /**
-     * {@link Dog} stub that is added to the fake service API layer.
-     */
-    private static Dog ACTIVE_TASK = new Dog(TASK_TITLE, TASK_DESCRIPTION, false);
+    private static String DOG_DESCRIPTION = "Rocks";
 
     /**
      * {@link Dog} stub that is added to the fake service API layer.
      */
-    private static Dog COMPLETED_TASK = new Dog(TASK_TITLE, TASK_DESCRIPTION, true);
+    private static Dog ACTIVE_DOG = new Dog(DOG_TITLE, DOG_DESCRIPTION, false);
+
+    /**
+     * {@link Dog} stub that is added to the fake service API layer.
+     */
+    private static Dog COMPLETED_DOG = new Dog(DOG_TITLE, DOG_DESCRIPTION, true);
 
     /**
      * {@link ActivityTestRule} is a JUnit {@link Rule @Rule} to launch your activity under test.
@@ -71,11 +71,11 @@ public class DogDetailScreenTest {
                     false /* Lazily launch activity */);
 
     private void loadActiveTask() {
-        startActivityWithWithStubbedTask(ACTIVE_TASK);
+        startActivityWithWithStubbedTask(ACTIVE_DOG);
     }
 
     private void loadCompletedTask() {
-        startActivityWithWithStubbedTask(COMPLETED_TASK);
+        startActivityWithWithStubbedTask(COMPLETED_DOG);
     }
 
     /**
@@ -89,13 +89,13 @@ public class DogDetailScreenTest {
      */
     private void startActivityWithWithStubbedTask(Dog dog) {
         // Add a dog stub to the fake service api layer.
-        DogsRepository tasksRepository = Injection.provideTasksRepository(InstrumentationRegistry.getTargetContext());
-        tasksRepository.deleteAllDogs();
+        DogsRepository dogsRepository = Injection.provideTasksRepository(InstrumentationRegistry.getTargetContext());
+        dogsRepository.deleteAllDogs();
         FakeDogsRemoteDataSource.getInstance().addDogs(dog);
 
         // Lazily start the Activity from the ActivityTestRule this time to inject the start Intent
         Intent startIntent = new Intent();
-        startIntent.putExtra(TaskDetailActivity.EXTRA_TASK_ID, dog.getId());
+        startIntent.putExtra(TaskDetailActivity.EXTRA_DOG_ID, dog.getId());
         mTaskDetailActivityTestRule.launchActivity(startIntent);
     }
 
@@ -115,9 +115,9 @@ public class DogDetailScreenTest {
         loadActiveTask();
 
         // Check that the dog name and breed are displayed
-        onView(withId(R.id.task_detail_title)).check(matches(withText(TASK_TITLE)));
-        onView(withId(R.id.task_detail_description)).check(matches(withText(TASK_DESCRIPTION)));
-        onView(withId(R.id.task_detail_complete)).check(matches(not(isChecked())));
+        onView(withId(R.id.dog_detail_title)).check(matches(withText(DOG_TITLE)));
+        onView(withId(R.id.dog_detail_description)).check(matches(withText(DOG_DESCRIPTION)));
+        onView(withId(R.id.dog_detail_complete)).check(matches(not(isChecked())));
     }
 
     @Test
@@ -125,9 +125,9 @@ public class DogDetailScreenTest {
         loadCompletedTask();
 
         // Check that the dog name and breed are displayed
-        onView(withId(R.id.task_detail_title)).check(matches(withText(TASK_TITLE)));
-        onView(withId(R.id.task_detail_description)).check(matches(withText(TASK_DESCRIPTION)));
-        onView(withId(R.id.task_detail_complete)).check(matches(isChecked()));
+        onView(withId(R.id.dog_detail_title)).check(matches(withText(DOG_TITLE)));
+        onView(withId(R.id.dog_detail_description)).check(matches(withText(DOG_DESCRIPTION)));
+        onView(withId(R.id.dog_detail_complete)).check(matches(isChecked()));
     }
 
     @Test
@@ -140,8 +140,8 @@ public class DogDetailScreenTest {
         TestUtils.rotateOrientation(mTaskDetailActivityTestRule.getActivity());
 
         // Check that the dog is shown
-        onView(withId(R.id.task_detail_title)).check(matches(withText(TASK_TITLE)));
-        onView(withId(R.id.task_detail_description)).check(matches(withText(TASK_DESCRIPTION)));
+        onView(withId(R.id.dog_detail_title)).check(matches(withText(DOG_TITLE)));
+        onView(withId(R.id.dog_detail_description)).check(matches(withText(DOG_DESCRIPTION)));
 
         // Check delete menu item is displayed and is unique
         onView(withId(R.id.menu_delete)).check(matches(isDisplayed()));
