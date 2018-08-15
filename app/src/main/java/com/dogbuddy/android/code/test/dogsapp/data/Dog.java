@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 
+import java.util.Calendar;
 import java.util.UUID;
 
 
@@ -37,6 +38,9 @@ public final class Dog {
     @ColumnInfo(name = "gender")
     private final String mGender;
 
+    @ColumnInfo(name = "birthYear")
+    private final Integer mBirthYear;
+
     /**
      * Use this constructor to create a new Dog.
      *
@@ -45,27 +49,34 @@ public final class Dog {
      */
     @Ignore
     public Dog(@NonNull String name, @NonNull String breed) {
-        this(name, breed, UUID.randomUUID().toString());
+        this(UUID.randomUUID().toString(), name, breed);
+    }
+
+    @Ignore
+    public Dog(@NonNull String name, @NonNull String breed, @NonNull String id) {
+        this(id, name, breed, "");
+    }
+
+    @Ignore
+    public Dog(@NonNull String id, @NonNull String name, @NonNull String breed, @NonNull String gender) {
+        this(id, name, breed, gender, Calendar.getInstance().get(Calendar.YEAR));
     }
 
     /**
-     * Use this constructor to create an active Dog if the Dog already has an id (copy of another
+     * Use this constructor to create a Dog if the Dog already has an id (copy of another
      * Dog).
-     *
-     * @param name       name of the dog
-     * @param breed breed of the dog
-     * @param id          id of the dog
+     * @param id        id of the dog
+     * @param name      name of the dog
+     * @param breed     breed of the dog
+     * @param gender    gender of the dog
      */
-    @Ignore
-    public Dog(@NonNull String name, @NonNull String breed, @NonNull String id) {
-        this(name, breed, id, "");
-    }
-
-    public Dog(@NonNull String name, @NonNull String breed, @NonNull String id, @Nullable String gender) {
+    public Dog(@NonNull String id, @NonNull String name, @NonNull String breed, @Nullable String gender,
+               @NonNull Integer birthYear) {
         this.mName = name;
         this.mBreed = breed;
         this.mId = id;
         this.mGender = gender;
+        this.mBirthYear = birthYear;
     }
 
     @NonNull
@@ -88,9 +99,16 @@ public final class Dog {
         return mGender;
     }
 
+    @NonNull
+    public Integer getBirthYear() {
+        return mBirthYear;
+    }
+
     public boolean isRequiredInfoMissing() {
         return Strings.isNullOrEmpty(mName) ||
-               Strings.isNullOrEmpty(mBreed);
+               Strings.isNullOrEmpty(mBreed) ||
+               Strings.isNullOrEmpty(mGender) ||
+               mBirthYear == null;
     }
 
     @Override

@@ -82,7 +82,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
-                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"/>
+                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                        android:entries="@{viewmodel.birthYears}"
+                        android:selectedItemPosition="@={viewmodel.birthYearIdx}"/>
 
                     <android.support.v7.widget.AppCompatSpinner
                         android:id="@+id/size"

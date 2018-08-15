@@ -24,6 +24,7 @@ import com.dogbuddy.android.code.test.dogsapp.dogs.BreedsAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -40,9 +41,11 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
     public final ObservableField<String> name = new ObservableField<>();
     public final ObservableField<String> breed = new ObservableField<>();
     public final ObservableInt genderIdx = new ObservableInt();
+    public final ObservableInt birthYearIdx = new ObservableInt();
 
     public final ObservableList<Breed> breeds = new ObservableArrayList<>();
     public final ObservableList<String> genders = new ObservableArrayList<>();
+    public final ObservableList<String> birthYears = new ObservableArrayList<>();
 
     public final ObservableBoolean dataLoading = new ObservableBoolean(false);
 
@@ -55,6 +58,7 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
     private final DogsRepository mDogsRepository;
 
     private BreedsAdapter breedsAdapter;
+    private static final int SPINNER_YEARS = 20; // the total birth year options shown in the birt year spinner
 
     @Nullable
     private String mDogId;
@@ -92,6 +96,7 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
         name.set(dog.getName());
         breed.set(dog.getBreed());
         genderIdx.set(genders.indexOf(dog.getGender()));
+        birthYearIdx.set(birthYears.indexOf(String.valueOf(dog.getBirthYear())));
 
         mIsDataLoaded = true;
         dataLoading.set(false);
@@ -123,6 +128,7 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
                 .setName(name.get())
                 .setBreed(breed.get())
                 .setGender(genders.get(genderIdx.get()))
+                .setBirthYear(Integer.valueOf(birthYears.get(birthYearIdx.get())))
                 .createDog();
         if (dog.isRequiredInfoMissing()) {
             mSnackbarText.setValue(R.string.empty_dog_message);
@@ -136,6 +142,7 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
                     .setBreed(breed.get())
                     .setId(mDogId)
                     .setGender(genders.get(genderIdx.get()))
+                    .setBirthYear(Integer.valueOf(birthYears.get(birthYearIdx.get())))
                     .createDog();
             updateDog(dog);
         }
@@ -159,6 +166,14 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
                 this
         );
         genders.addAll(Arrays.asList(mContext.getResources().getStringArray(R.array.genders)));
+        setupBirthYearsSpinner();
+    }
+
+    private void setupBirthYearsSpinner() {
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        for (int i = 0; i < SPINNER_YEARS; i++) {
+            birthYears.add(String.valueOf(currentYear - i));
+        }
     }
 
     private boolean isNewDog() {

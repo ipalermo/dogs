@@ -16,10 +16,6 @@
 
 package com.dogbuddy.android.code.test.dogsapp.data.source.local;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-
 import android.arch.persistence.room.Room;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
@@ -33,10 +29,14 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 @RunWith(AndroidJUnit4.class)
 public class DogsDaoTest {
 
-    private static final Dog DOG = new Dog("name", "breed", "id", true);
+    private static final Dog DOG = new Dog("id", "name", "breed", true);
 
     private DogBuddyDatabase mDatabase;
 
@@ -71,7 +71,7 @@ public class DogsDaoTest {
         mDatabase.dogDao().insertDog(DOG);
 
         // When a dog with the same id is inserted
-        Dog newDog = new Dog("title2", "description2", "id", true);
+        Dog newDog = new Dog("id", "title2", "description2", true);
         mDatabase.dogDao().insertDog(newDog);
         // When getting the dog by id from the database
         Dog loaded = mDatabase.dogDao().getDogById(DOG.getId());
@@ -100,7 +100,7 @@ public class DogsDaoTest {
         mDatabase.dogDao().insertDog(DOG);
 
         // When the dog is updated
-        Dog updatedDog = new Dog("title2", "description2", "id", true);
+        Dog updatedDog = new Dog("id", "title2", "description2", true);
         mDatabase.dogDao().updateDog(updatedDog);
 
         // When getting the dog by id from the database
