@@ -91,7 +91,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
-                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"/>
+                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                        android:entries="@{viewmodel.sizes}"
+                        android:selectedItemPosition="@={viewmodel.sizeIdx}"/>
 
                     <RelativeLayout
                         android:id="@+id/vaccinations_container"

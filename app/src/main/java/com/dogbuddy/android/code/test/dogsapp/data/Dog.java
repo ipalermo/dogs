@@ -41,6 +41,10 @@ public final class Dog {
     @ColumnInfo(name = "birthYear")
     private final Integer mBirthYear;
 
+    @Nullable
+    @ColumnInfo(name = "size")
+    private final String mSize;
+
     /**
      * Use this constructor to create a new Dog.
      *
@@ -59,7 +63,7 @@ public final class Dog {
 
     @Ignore
     public Dog(@NonNull String id, @NonNull String name, @NonNull String breed, @NonNull String gender) {
-        this(id, name, breed, gender, Calendar.getInstance().get(Calendar.YEAR));
+        this(id, name, breed, gender, Calendar.getInstance().get(Calendar.YEAR), "");
     }
 
     /**
@@ -71,12 +75,13 @@ public final class Dog {
      * @param gender    gender of the dog
      */
     public Dog(@NonNull String id, @NonNull String name, @NonNull String breed, @Nullable String gender,
-               @NonNull Integer birthYear) {
+               @NonNull Integer birthYear, @NonNull String size) {
         this.mName = name;
         this.mBreed = breed;
         this.mId = id;
         this.mGender = gender;
         this.mBirthYear = birthYear;
+        this.mSize = size;
     }
 
     @NonNull
@@ -97,6 +102,11 @@ public final class Dog {
     @Nullable
     public String getGender() {
         return mGender;
+    }
+
+    @Nullable
+    public String getSize() {
+        return mSize;
     }
 
     @NonNull

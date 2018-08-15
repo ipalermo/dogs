@@ -16,6 +16,13 @@
         <item>Female</item>
         <item>Unknown</item>
     </string-array>
+    <string-array name="sizes">
+        <item>Very small</item>
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Big</item>
+        <item>Very Big</item>
+    </string-array>
     <string name="description_hint">Enter your Dog here.</string>
     <string name="empty_dog_message">Required Dog info is missing</string>
     <string name="successfully_saved_dog_message">Dog data saved</string>

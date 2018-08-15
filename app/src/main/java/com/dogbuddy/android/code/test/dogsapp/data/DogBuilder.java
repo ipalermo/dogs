@@ -6,6 +6,7 @@ public class DogBuilder {
     private String name;
     private String breed;
     private String gender;
+    private String size;
     private Integer birthYear;
     private String id = UUID.randomUUID().toString();
 
@@ -34,7 +35,12 @@ public class DogBuilder {
         return this;
     }
 
+    public DogBuilder setSize(String size) {
+        this.size = size;
+        return this;
+    }
+
     public Dog createDog() {
-        return new Dog(id, name, breed, gender, birthYear);
+        return new Dog(id, name, breed, gender, birthYear, size);
     }
 }
