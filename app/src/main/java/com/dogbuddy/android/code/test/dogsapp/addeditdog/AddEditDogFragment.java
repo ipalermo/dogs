@@ -17,12 +17,8 @@ import android.view.ViewGroup;
 
 import com.dogbuddy.android.code.test.dogsapp.R;
 import com.dogbuddy.android.code.test.dogsapp.SnackbarMessage;
-import com.dogbuddy.android.code.test.dogsapp.data.Breed;
 import com.dogbuddy.android.code.test.dogsapp.databinding.AddDogFragBinding;
-import com.dogbuddy.android.code.test.dogsapp.dogs.BreedsAdapter;
 import com.dogbuddy.android.code.test.dogsapp.util.SnackbarUtils;
-
-import java.util.ArrayList;
 
 /**
  * Main UI for the add dog screen. Users can enter a dog name and breed.
@@ -32,8 +28,6 @@ public class AddEditDogFragment extends Fragment {
     public static final String ARGUMENT_EDIT_DOG_ID = "EDIT_DOG_ID";
 
     private AddEditDogViewModel mViewModel;
-
-    private BreedsAdapter mBreedsAdapter;
 
     private AddDogFragBinding mViewDataBinding;
 
@@ -109,22 +103,11 @@ public class AddEditDogFragment extends Fragment {
 
     private void setupSpinners() {
         setupBreedsSpinnerAdapter();
-        setupGenderSpinnerAdapter();
     }
 
     private void setupBreedsSpinnerAdapter() {
         AppCompatSpinner breedsSpinner =  mViewDataBinding.breed;
-
-        mBreedsAdapter = new BreedsAdapter(
-                new ArrayList<Breed>(0),
-                mViewModel
-        );
-        breedsSpinner.setAdapter(mBreedsAdapter);
-    }
-
-    private void setupGenderSpinnerAdapter() {
-        AppCompatSpinner genderSpinner =  mViewDataBinding.gender;
-        genderSpinner.setAdapter(mViewModel.genderAdapter.get());
+        breedsSpinner.setAdapter(mViewModel.getBreedsAdapter());
     }
 
     @Override

@@ -169,8 +169,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
                         style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-                        android:adapter="@{viewmodel.genderAdapter}"
-                        bind:selectedOption="@={viewmodel.gender}"/>
+                        android:entries="@{viewmodel.genders}"
+                        android:selectedItemPosition="@={viewmodel.genderIdx}"/>
 
                 </LinearLayout>
 

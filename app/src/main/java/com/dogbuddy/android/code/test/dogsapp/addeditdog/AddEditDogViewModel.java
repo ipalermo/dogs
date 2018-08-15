@@ -7,9 +7,9 @@ import android.content.Context;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.databinding.ObservableInt;
 import android.databinding.ObservableList;
 import android.support.annotation.Nullable;
-import android.widget.ArrayAdapter;
 
 import com.dogbuddy.android.code.test.dogsapp.R;
 import com.dogbuddy.android.code.test.dogsapp.SingleLiveEvent;
@@ -20,7 +20,10 @@ import com.dogbuddy.android.code.test.dogsapp.data.Dog;
 import com.dogbuddy.android.code.test.dogsapp.data.DogBuilder;
 import com.dogbuddy.android.code.test.dogsapp.data.source.DogsDataSource;
 import com.dogbuddy.android.code.test.dogsapp.data.source.DogsRepository;
+import com.dogbuddy.android.code.test.dogsapp.dogs.BreedsAdapter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -36,10 +39,10 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
 
     public final ObservableField<String> name = new ObservableField<>();
     public final ObservableField<String> breed = new ObservableField<>();
-    public final ObservableField<String> gender = new ObservableField<>();
+    public final ObservableInt genderIdx = new ObservableInt();
 
     public final ObservableList<Breed> breeds = new ObservableArrayList<>();
-    public final ObservableField<ArrayAdapter> genderAdapter = new ObservableField<>();
+    public final ObservableList<String> genders = new ObservableArrayList<>();
 
     public final ObservableBoolean dataLoading = new ObservableBoolean(false);
 
@@ -50,6 +53,8 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
     private final Context mContext; // To avoid leaks, this must be an Application Context.
 
     private final DogsRepository mDogsRepository;
+
+    private BreedsAdapter breedsAdapter;
 
     @Nullable
     private String mDogId;
@@ -63,7 +68,7 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
         super(context);
         mContext = context.getApplicationContext();
         mDogsRepository = dogsRepository;
-        setupSpinnerAdapters();
+        setupSpinnerItems();
     }
 
     public void start(String dogId) {
@@ -86,7 +91,7 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
     public void onDogLoaded(Dog dog) {
         name.set(dog.getName());
         breed.set(dog.getBreed());
-        gender.set(dog.getGender());
+        genderIdx.set(genders.indexOf(dog.getGender()));
 
         mIsDataLoaded = true;
         dataLoading.set(false);
@@ -117,7 +122,7 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
         Dog dog = new DogBuilder()
                 .setName(name.get())
                 .setBreed(breed.get())
-                .setGender(gender.get())
+                .setGender(genders.get(genderIdx.get()))
                 .createDog();
         if (dog.isRequiredInfoMissing()) {
             mSnackbarText.setValue(R.string.empty_dog_message);
@@ -130,7 +135,7 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
                     .setName(name.get())
                     .setBreed(breed.get())
                     .setId(mDogId)
-                    .setGender(gender.get())
+                    .setGender(genders.get(genderIdx.get()))
                     .createDog();
             updateDog(dog);
         }
@@ -144,10 +149,16 @@ public class AddEditDogViewModel extends AndroidViewModel implements DogsDataSou
         return mDogUpdated;
     }
 
-    private void setupSpinnerAdapters() {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mContext, R.array.genders, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        genderAdapter.set(adapter);
+    public BreedsAdapter getBreedsAdapter() {
+        return breedsAdapter;
+    }
+
+    private void setupSpinnerItems() {
+        breedsAdapter = new BreedsAdapter(
+                new ArrayList<Breed>(0),
+                this
+        );
+        genders.addAll(Arrays.asList(mContext.getResources().getStringArray(R.array.genders)));
     }
 
     private boolean isNewDog() {
